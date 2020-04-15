@@ -1,0 +1,16 @@
+{
+    "name": "helium/laravel-helpers",
+    "description": "A collection of common use traits and functions for Laravel",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nick Rupert",
+            "email": "nick@heliumservices.com"
+        }
+    ],
+    "require": {
+        "illuminate/database": "^5.0||^6.0||^7.0",
+		"illuminate/support": "^5.8||^6.0||^7.0"
+	}
+}
