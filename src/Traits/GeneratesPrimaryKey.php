@@ -2,6 +2,7 @@
 
 namespace Helium\LaravelHelpers\Traits;
 
+use Helium\LaravelHelpers\Helpers\StringHelper;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
 
@@ -33,7 +34,7 @@ trait GeneratesPrimaryKey
 		if (method_exists($this, 'generatePrimaryKeyValue')) {
 			return $this->generatePrimaryKeyValue();
 		} else {
-			return Uuid::uuid4()->getHex();
+			return StringHelper::uuid();
 		}
 	}
 	//endregion
