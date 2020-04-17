@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 trait HeliumBaseTraits
 {
 	use GeneratesPrimaryKey;
+	use HasAttributeEvents;
 	use NestedUpdatable;
 	use SelfValidates;
 	use SoftDeletes;
