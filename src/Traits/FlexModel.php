@@ -111,7 +111,7 @@ trait FlexModel
 	 */
 	protected function getTableAttributes()
 	{
-		$tableAttributes = $this->getBaseAttributes($attributes);
+		$tableAttributes = $this->getBaseAttributes();
 		$flexAttributes = $this->getFlexAttributes();
 
 		$tableAttributes[$this->getFlexColumn()] = json_encode($flexAttributes);
