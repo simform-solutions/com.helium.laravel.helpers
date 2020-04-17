@@ -2,44 +2,32 @@
 
 namespace Helium\LaravelHelpers\Traits;
 
-use Helium\LaravelHelpers\Helpers\StringHelper;
+use Helium\LaravelHelpers\Classes\UuidPrimaryKeyGenerator;
+use Helium\LaravelHelpers\Contracts\PrimaryKeyGenerator;
 use Illuminate\Database\Eloquent\Model;
-use Ramsey\Uuid\Uuid;
 
 trait GeneratesPrimaryKey
 {
 	//region Helpers
 	/**
-	 * Get the primary key prefix, usually 3 capital characters
-	 * The model may implement a native $prefix property,
-	 * or one will be automatically determined basedo on the class name
+	 * Get PrimaryKeyGenerator instance
 	 *
-	 * @return string
+	 * @return PrimaryKeyGenerator
 	 */
-	protected function getPrimaryKeyPrefix(): string
+	public function getPrimaryKeyGenerator(): PrimaryKeyGenerator
 	{
-		if (isset($this->primaryKeyPrefix))
-		{
-			return $this->primaryKeyPrefix;
-		}
+		$generator = $this->primaryKeyGenerator ?? UuidPrimaryKeyGenerator::class;
 
-		$path = explode('\\', static::class);
-		$className = array_pop($path);
-
-		return strtoupper(substr($className, 0, 3));
-	}
-
-	protected function getGeneratedValue(): string
-	{
-		if (method_exists($this, 'generatePrimaryKeyValue')) {
-			return $this->generatePrimaryKeyValue();
-		} else {
-			return StringHelper::uuid();
-		}
+		return new $generator($this);
 	}
 	//endregion
 
 	//region Overrides
+	/**
+	 * Disable incrementing ids
+	 *
+	 * @return bool
+	 */
 	public function getIncrementing()
 	{
 		return false;
@@ -55,16 +43,8 @@ trait GeneratesPrimaryKey
 		self::creating(function (Model $model) {
 			$primaryKey = $model->getKeyName();
 
-			$model->setAttribute($primaryKey, $model->generatePrimaryKey());
+			$model->setAttribute($primaryKey, $model->getPrimaryKeyGenerator()->generate());
 		});
-	}
-
-	public function generatePrimaryKey(): string
-	{
-		$prefix = $this->getPrimaryKeyPrefix();
-		$value = $this->getGeneratedValue();
-
-		return "{$prefix}-{$value}";
 	}
 	//endregion
 }
