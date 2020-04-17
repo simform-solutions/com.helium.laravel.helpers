@@ -9,10 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class UuidPrimaryKeyGenerator extends PrimaryKeyGenerator
 {
 	/**
-	 * Get the primary key prefix, usually 3 capital characters
-	 * The model may implement a native $prefix property,
-	 * or one will be automatically determined basedo on the class name
-	 *
+	 * @description Get the model prefix
 	 * @return string
 	 */
 	protected function getPrefix(): string
@@ -28,6 +25,10 @@ class UuidPrimaryKeyGenerator extends PrimaryKeyGenerator
 		return strtoupper(substr($className, 0, 3));
 	}
 
+	/**
+	 * @description Generate a prefixed UUID primary key for the model
+	 * @return string
+	 */
 	public function generate(): string
 	{
 		$prefix = $this->getPrefix();

@@ -9,23 +9,41 @@ use Illuminate\Support\Facades\Auth;
 
 class PolicyHelper
 {
-	public static function isSelf(Authenticatable $user)
+	/**
+	 * @description Determines whether the current user is the same as the
+	 * specified user
+	 * @param Authenticatable $user
+	 * @return bool
+	 */
+	public static function isSelf(Authenticatable $user): bool
 	{
 		return $user->getAuthIdentifier() == Auth::user()->getAuthIdentifier();
 	}
 
-	public static function isAdmin(HasAdmins $user)
+	/**
+	 * @description Determines whether the current user is an admin
+	 * @return bool
+	 */
+	public static function isAdmin(): bool
 	{
-		return $user->isAdmin();
+		$user = Auth::user();
+
+		if ($user instanceof HasAdmins)
+		{
+			return $user->isAdmin();
+		}
+
+		return false;
 	}
 
-	public static function isAdminOrSelf($user)
+	/**
+	 * @description Determines whether the current user is an admin or the same as
+	 * the specified user
+	 * @param $user
+	 * @return bool
+	 */
+	public static function isAdminOrSelf(Authenticatable $user): bool
 	{
-		/**
-		 * Note: This call may throw a TypeError if $user does not implement both
-		 * Authenticatable and HasAdmins. This error is purposefully not caught
-		 * to enforce proper usage of this helper function.
-		 */
-		return self::isSelf($user) || self::isAdmin($user);
+		return self::isSelf($user) || self::isAdmin();
 	}
 }

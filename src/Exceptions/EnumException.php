@@ -20,7 +20,11 @@ class EnumException extends Exception
 		parent::__construct("'$value' is not in the specified enum values for '$key'");
 	}
 
-	public function getEnumValues()
+	/**
+	 * @description Get the array of allowed enum values
+	 * @return array
+	 */
+	public function getEnumValues(): array
 	{
 		return $this->enumValues;
 	}

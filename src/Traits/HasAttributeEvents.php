@@ -5,6 +5,10 @@ namespace Helium\LaravelHelpers\Traits;
 trait HasAttributeEvents
 {
 	//region Base
+	/**
+	 * @description Registered event listners
+	 * @var array
+	 */
 	protected static $attributeEventListners = [
 		'setting_attribute' => [],
 		'set_attribute_finished' => [],
@@ -14,12 +18,22 @@ trait HasAttributeEvents
 	//endregion
 
 	//region Helpers
-	protected static function addAttributeEventListner(string $event, $callback)
+	/**
+	 * @description Register an event listener for the specified event
+	 * @param string $event
+	 * @param callable $callback
+	 */
+	protected static function addAttributeEventListner(string $event, callable $callback): void
 	{
 		self::$attributeEventListners[$event][] = $callback;
 	}
 
-	protected static function resolveAttributeEventListners(string $event, ...$args)
+	/**
+	 * @description Trigger any registered event listeners for the specified event
+	 * @param string $event
+	 * @param mixed ...$args
+	 */
+	protected static function resolveAttributeEventListners(string $event, ...$args): void
 	{
 		foreach (self::$attributeEventListners[$event] as $callback)
 		{
@@ -29,26 +43,50 @@ trait HasAttributeEvents
 	//endregion
 
 	//region Functions
-	public static function settingAttribute($callback)
+	/**
+	 * @description Register an event listener before setting attributes
+	 * @param callable $callback
+	 */
+	public static function settingAttribute(callable $callback): void
 	{
 		self::addAttributeEventListner('setting_attribute', $callback);
 	}
 
-	public static function setAttributeFinished($callback)
+	/**
+	 * @description Register an event listener after setting attributes
+	 * @param callable $callback
+	 */
+	public static function setAttributeFinished(callable $callback): void
 	{
 		self::addAttributeEventListner('set_attribute_finished', $callback);
 	}
 
-	public static function gettingAttribute($callback)
+	/**
+	 * @description Register an event listener before getting attributes
+	 * @param callable $callback
+	 */
+	public static function gettingAttribute(callable $callback): void
 	{
 		self::addAttributeEventListner('getting_attribute', $callback);
 	}
 
-	public static function getAttributeFinished($callback)
+	/**
+	 * @description Register an event listener after getting attributes
+	 * @param callable $callback
+	 */
+	public static function getAttributeFinished(callable $callback): void
 	{
 		self::addAttributeEventListner('get_attribute_finished', $callback);
 	}
+	//endregion
 
+	//region Overrides
+	/**
+	 * @description Set attribute with event callbacks
+	 * @param $key
+	 * @param $value
+	 * @return mixed
+	 */
 	public function setAttribute($key, $value)
 	{
 		self::resolveAttributeEventListners('setting_attribute',
@@ -68,6 +106,11 @@ trait HasAttributeEvents
 		return $results;
 	}
 
+	/**
+	 * @description Get attribute with event callbacks
+	 * @param $key
+	 * @return mixed
+	 */
 	public function getAttribute($key)
 	{
 		self::resolveAttributeEventListners('getting_attribute',

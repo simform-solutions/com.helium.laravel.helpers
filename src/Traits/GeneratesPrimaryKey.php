@@ -10,8 +10,7 @@ trait GeneratesPrimaryKey
 {
 	//region Helpers
 	/**
-	 * Get PrimaryKeyGenerator instance
-	 *
+	 * @description Get PrimaryKeyGenerator instance
 	 * @return PrimaryKeyGenerator
 	 */
 	public function getPrimaryKeyGenerator(): PrimaryKeyGenerator
@@ -24,8 +23,7 @@ trait GeneratesPrimaryKey
 
 	//region Overrides
 	/**
-	 * Disable incrementing ids
-	 *
+	 * @description Disable incrementing ids
 	 * @return bool
 	 */
 	public function getIncrementing()
@@ -36,7 +34,7 @@ trait GeneratesPrimaryKey
 
 	//region Functions
 	/**
-	 * Generate a unique primary key on creation
+	 * @description Generate a unique primary key on creation
 	 */
 	public static function bootGeneratesPrimaryKey()
 	{

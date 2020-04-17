@@ -16,18 +16,10 @@ trait SelfValidates
 
 	//region Helpers
 	/**
-	 * Get the list of validation rules from the model.
-	 * The model may implement either a native $validationRules property
-	 * or a validationRules() function, depending on the complexity or
-	 * conditionality of the rules.
-	 *
-	 * Rules are cached locally in $_validationRules upon the first retrieval
-	 * to potentially prevent inefficiencies by calling the validationRules()
-	 * function multiple times.
-	 *
+	 * @description Get the model validation rules
 	 * @return array
 	 */
-	public function getValidationRules()
+	public function getValidationRules(): array
 	{
 		if (!$this->_validationRules) {
 			if (method_exists($this, 'validationRules')) {
@@ -41,17 +33,10 @@ trait SelfValidates
 	}
 
 	/**
-	 * Get the list of custom validation messages from the model.
-	 * The model may implement either a native $validationRules property
-	 * or a validationRules() function.
-	 *
-	 * Messages are cached locally in $_validationMessages upon the first retrieval
-	 * to potentially prevent inefficiencies by calling the validationMessages()
-	 * function multiple times.
-	 *
+	 * @description Get model validation messages
 	 * @return array
 	 */
-	public function getValidationMessages()
+	public function getValidationMessages(): array
 	{
 		if (!$this->_validationMessages) {
 			if (method_exists($this, 'validationMessages')) {
@@ -65,17 +50,10 @@ trait SelfValidates
 	}
 
 	/**
-	 * Get whether the model should validate automatically on save.
-	 * The model may implement either a native $validateOnSave property
-	 * or a validateOnSave() function.
-	 *
-	 * Messages are cached locally in $_validateOnSave upon the first retrieval
-	 * to potentially prevent inefficiencies by calling the validateOnSave()
-	 * function multiple times.
-	 *
+	 * @description Determine whether the model should validate automatically on save
 	 * @return bool
 	 */
-	public function getValidatesOnSave()
+	public function getValidatesOnSave(): bool
 	{
 		if (!$this->_validatesOnSave) {
 			if (method_exists($this, 'validatesOnSave')) {
@@ -89,12 +67,9 @@ trait SelfValidates
 	}
 
 	/**
-	 * Load all model relationships required for validation.
-	 * Cache the list of relationships that were already loaded so that
-	 * later, all relationships that were NOT already loaded can be unloaded
-	 * to prevent unintended side effects.
+	 * @description Load all model relationships required for validation
 	 */
-	private function loadRelationsForValidation()
+	private function loadRelationsForValidation(): void
 	{
 		$rules = $this->getValidationRules();
 
@@ -110,10 +85,9 @@ trait SelfValidates
 	}
 
 	/**
-	 * Unload all model relationships that were not loaded prior to validation
-	 * using the cached list of already loaded relationships from earlier.
+	 * @description Unload all model relationships that were not loaded prior to validation
 	 */
-	private function unloadUncachedRelations()
+	private function unloadUncachedRelations(): void
 	{
 		//Get a list of all relations that were not already loaded
 		//using the list of relations that WERE already loaded
@@ -131,7 +105,7 @@ trait SelfValidates
 
 	//region Functions
 	/**
-	 * Call validate() on save if enabled
+	 * @description Validate model on save if enabled
 	 */
 	public static function bootSelfValidates()
 	{
@@ -144,12 +118,11 @@ trait SelfValidates
 	}
 
 	/**
-	 * Perform attribute and relationship validation on the model
-	 *
+	 * @description Perform attribute and relationship validation on the model
 	 * @return array
 	 * @throws HeliumValidationException
 	 */
-	public function validate()
+	public function validate(): array
 	{
 		$rules = $this->getValidationRules();
 		$messages = $this->getValidationMessages();

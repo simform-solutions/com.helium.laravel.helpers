@@ -11,7 +11,11 @@ trait FlexModel
 	//region Base
 	protected $baseColumns;
 
-	protected function getFlexColumn()
+	/**
+	 * @description Get the name of the column into which flex data is encoded
+	 * @return string
+	 */
+	protected function getFlexColumn(): string
 	{
 		return $this->flexColumn ?? 'data';
 	}
@@ -19,11 +23,10 @@ trait FlexModel
 
 	//region Helpers
 	/**
+	 * @description Get table columns, except data
 	 * @return array
-	 *
-	 * Get table columns, except data
 	 */
-	protected function getBaseColumns()
+	protected function getBaseColumns(): array
 	{
 		if (!$this->baseColumns)
 		{
@@ -38,31 +41,30 @@ trait FlexModel
 	}
 
 	/**
+	 * @description Determines whether the specified key is a native table attribute
 	 * @param $key
 	 * @return bool
-	 *
-	 * Is the specified key a native table attribute?
 	 */
-	protected function isBaseAttribute($key) {
+	protected function isBaseAttribute($key): bool
+	{
 		return in_array($key, $this->getBaseColumns());
 	}
 
 	/**
+	 * @description Determines whether the specified key is a flex attibute
 	 * @param $key
 	 * @return bool
-	 *
-	 * Is the specified key a flex attibute?
 	 */
-	protected function isFlexAttribute($key) {
+	protected function isFlexAttribute($key): bool
+	{
 		return !$this->isBaseAttribute($key);
 	}
 
 	/**
+	 * @description Given an array of attributes, filter out the ones which are
+	 * native table attributes
 	 * @param array $attributes
 	 * @return array
-	 *
-	 * Given an array of attributes, filter out the ones which are native
-	 * table attributes
 	 */
 	protected function filterBaseAttributes(array $attributes = [])
 	{
@@ -72,10 +74,10 @@ trait FlexModel
 	}
 
 	/**
+	 * @description Given an array of attributes, filter out the ones which are flex
+	 * attributes
 	 * @param array $attributes
 	 * @return array
-	 *
-	 * Given an array of attributes, filter out the ones which are flex attributes
 	 */
 	protected function filterFlexAttributes(array $attributes = [])
 	{
@@ -85,9 +87,8 @@ trait FlexModel
 	}
 
 	/**
+	 * @description Get all base table attributes
 	 * @return array
-	 *
-	 * Get all base table attributes
 	 */
 	protected function getBaseAttributes()
 	{
@@ -95,9 +96,8 @@ trait FlexModel
 	}
 
 	/**
+	 * @description Get all flex attributes
 	 * @return array
-	 *
-	 * Get all flex attributes
 	 */
 	protected function getFlexAttributes()
 	{
@@ -105,9 +105,8 @@ trait FlexModel
 	}
 
 	/**
+	 * @description Get all attributes as they will be stored in the database
 	 * @return array
-	 *
-	 * Get all attributes as they will be stored in the database
 	 */
 	protected function getTableAttributes()
 	{
@@ -122,13 +121,10 @@ trait FlexModel
 
 	//region Model CRUD Overrides
 	/**
+	 * @description Load model instances from database with flex attributes
 	 * @param array $attributes
 	 * @param null $connection
 	 * @return Model
-	 *
-	 * Loads model instances from the database
-	 *
-	 * Override to unpack flex data json to individual properties
 	 */
 	public function newFromBuilder($attributes = [], $connection = null)
 	{
@@ -150,12 +146,9 @@ trait FlexModel
 	}
 
 	/**
+	 * @description Insert new model instances into the database with flex attributes
 	 * @param Builder $query
 	 * @return bool
-	 *
-	 * Inserts new model instances into the database
-	 *
-	 * Override to pack flex properties into flex data json
 	 */
 	protected function performInsert(Builder $query)
 	{
@@ -207,8 +200,7 @@ trait FlexModel
 
 	/**
 	 * Used in Model to generate update queries
-	 *
-	 * Override to pack flex properties into flex data json
+	 * @description Determine updated columns with flex attributes
 	 */
 	public function getDirty()
 	{

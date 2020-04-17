@@ -3,6 +3,7 @@
 namespace Helium\LaravelHelpers\Exceptions;
 
 use Exception;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException as IlluminateValidationException;
 
 class ValidationException extends Exception
@@ -18,12 +19,20 @@ class ValidationException extends Exception
 		parent::__construct($message, 0, $previous);
 	}
 
-	public function toArray()
+	/**
+	 * @description Get all validation errors as an Array
+	 * @return array
+	 */
+	public function toArray(): array
 	{
 		return $this->errors;
 	}
 
-	public function toCollection()
+	/**
+	 * @description Get all validation errors as a Collection
+	 * @return Collection
+	 */
+	public function toCollection(): Collection
 	{
 		return collect($this->errors);
 	}
