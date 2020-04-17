@@ -18,9 +18,9 @@ trait GeneratesPrimaryKey
 	 */
 	protected function getPrimaryKeyPrefix(): string
 	{
-		if (isset($this->prefix))
+		if (isset($this->primaryKeyPrefix))
 		{
-			return $this->prefix;
+			return $this->primaryKeyPrefix;
 		}
 
 		$path = explode('\\', static::class);
