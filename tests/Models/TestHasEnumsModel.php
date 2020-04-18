@@ -2,7 +2,6 @@
 
 namespace Tests\Models;
 
-use Helium\LaravelHelpers\Traits\HasAttributeEvents;
 use Helium\LaravelHelpers\Traits\HasEnums;
 use Illuminate\Database\Eloquent\Model;
 use Tests\Enums\Color;
