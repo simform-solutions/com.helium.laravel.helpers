@@ -13,7 +13,7 @@ class Color extends Enum
 	const BLUE = 'Blue';
 	const PURPLE = 'Purple';
 
-	public const PRIMARY = [
+	const PRIMARY = [
 		self::RED,
 		self::YELLOW,
 		self::BLUE
