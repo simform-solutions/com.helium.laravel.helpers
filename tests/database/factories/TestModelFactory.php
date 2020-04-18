@@ -2,10 +2,10 @@
 
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
-use Tests\Models\TestModel;
+use Tests\Models\TestFlexModel;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(TestModel::class, function (Faker $faker) {
+$factory->define(TestFlexModel::class, function (Faker $faker) {
     return [
 
     ];

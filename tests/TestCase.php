@@ -3,7 +3,7 @@
 namespace Tests;
 
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use Tests\Models\TestModel;
+use Tests\Models\TestFlexModel;
 
 abstract class TestCase extends BaseTestCase
 {

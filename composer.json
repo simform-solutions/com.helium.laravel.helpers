@@ -24,6 +24,7 @@
     },
 	"autoload": {
 		"psr-4": {
+			"Helium\\LaravelHelpers\\" : "src",
 			"Tests\\": "tests"
 		}
 	}
