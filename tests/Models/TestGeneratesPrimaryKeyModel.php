@@ -10,5 +10,7 @@ class TestGeneratesPrimaryKeyModel extends Model
 {
 	use GeneratesPrimaryKey;
 
+	public $primaryKeyPrefix = 'GPK';
+
 	protected $guarded = [];
 }

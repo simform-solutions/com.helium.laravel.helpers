@@ -7,5 +7,6 @@ use Tests\Models\TestGeneratesPrimaryKeyModel;
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(TestGeneratesPrimaryKeyModel::class, function (Faker $faker) {
     return [
+    	'string' => $faker->word
     ];
 });

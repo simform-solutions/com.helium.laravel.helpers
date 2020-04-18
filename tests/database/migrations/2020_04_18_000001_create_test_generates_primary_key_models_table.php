@@ -16,6 +16,7 @@ class CreateTestGeneratesPrimaryKeyModelsTable extends Migration
         Schema::create('test_generates_primary_key_models', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->timestamps();
+            $table->string('string');
         });
     }
 
