@@ -8,7 +8,7 @@ use Tests\TestCase;
 class FlexModelTest extends TestCase
 {
 	protected const FLEX_ATTRIBUTE_INITIAL_VALUE = 'lorem ipsum';
-	protected const FLEX_ARRAY_INITIAL_VALUE = [self::FLEX_ATTRIBUTE_INITIAL_VALUE];
+	protected const FLEX_ARRAY_INITIAL_VALUE = ['a', 'b', 'c'];
 
 	protected function getInstance(): TestFlexModel
 	{
@@ -68,7 +68,7 @@ class FlexModelTest extends TestCase
 	{
 		$model = $this->getInstance();
 
-		$flexArrayValue = ['dolor sit'];
+		$flexArrayValue = ['d', 'e', 'f'];
 
 		$model->update([
 			'flex_array' => $flexArrayValue
@@ -77,7 +77,7 @@ class FlexModelTest extends TestCase
 		$this->assertIsArray($model->flex_array);
 		$this->assertEquals($model->flex_array, $flexArrayValue);
 
-		$flexArrayValue = ['amet consectetur'];
+		$flexArrayValue = ['g', 'h', 'i'];
 
 		$model->flex_array = $flexArrayValue;
 		$model->save();

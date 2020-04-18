@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 
 trait HasEnums
 {
+	use HasAttributeEvents;
+
 	//region Helpers
 	/**
 	 * @description Determines whether the specified attribute is an enum

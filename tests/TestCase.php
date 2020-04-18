@@ -2,27 +2,29 @@
 
 namespace Tests;
 
+use Exception;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use Tests\Models\TestFlexModel;
 
 abstract class TestCase extends BaseTestCase
 {
-	protected function setUp(): void
-	{
-		parent::setUp();
+	use SetsUpTests;
 
-		$this->withFactories(__DIR__ . '/database/factories');
-		$this->loadMigrationsFrom(__DIR__ . '/database/migrations');
-	}
-
-	protected function getEnvironmentSetUp($app)
+	protected function assertThrowsException(callable $callback, string $exceptionClass = null)
 	{
-		// Setup default database to use sqlite :memory:
-		$app['config']->set('database.default', 'testbench');
-		$app['config']->set('database.connections.testbench', [
-			'driver'   => 'sqlite',
-			'database' => ':memory:',
-			'prefix'   => '',
-		]);
+		$exceptionClass = $exceptionClass ?? Exception::class;
+		$assertionMessage = "Failed to assert that {$exceptionClass} was thrown";
+
+		try
+		{
+			$callback();
+
+			$this->assertTrue(false, $assertionMessage);
+		}
+		catch (Exception $e)
+		{
+			$assertionMessage .= ', got ' . get_class($e);
+			$this->assertInstanceOf($exceptionClass, $e, $assertionMessage);
+		}
 	}
 }
