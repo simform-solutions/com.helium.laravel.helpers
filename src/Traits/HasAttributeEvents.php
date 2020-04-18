@@ -11,9 +11,9 @@ trait HasAttributeEvents
 	 */
 	protected static $attributeEventListners = [
 		'setting_attribute' => [],
-		'set_attribute_finished' => [],
+		'did_set_attribute' => [],
 		'getting_attribute' => [],
-		'get_attribute_finished' => []
+		'did_get_attribute' => []
 	];
 	//endregion
 
@@ -56,9 +56,9 @@ trait HasAttributeEvents
 	 * @description Register an event listener after setting attributes
 	 * @param callable $callback
 	 */
-	public static function setAttributeFinished(callable $callback): void
+	public static function didSetAttribute(callable $callback): void
 	{
-		self::addAttributeEventListner('set_attribute_finished', $callback);
+		self::addAttributeEventListner('did_set_attribute', $callback);
 	}
 
 	/**
@@ -74,9 +74,9 @@ trait HasAttributeEvents
 	 * @description Register an event listener after getting attributes
 	 * @param callable $callback
 	 */
-	public static function getAttributeFinished(callable $callback): void
+	public static function didGetAttribute(callable $callback): void
 	{
-		self::addAttributeEventListner('get_attribute_finished', $callback);
+		self::addAttributeEventListner('did_get_attribute', $callback);
 	}
 	//endregion
 
@@ -97,7 +97,7 @@ trait HasAttributeEvents
 
 		$results = parent::setAttribute($key, $value);
 
-		self::resolveAttributeEventListners('set_attribute_finished',
+		self::resolveAttributeEventListners('did_set_attribute',
 			$this,
 			$key,
 			$value
@@ -120,7 +120,7 @@ trait HasAttributeEvents
 
 		$results = parent::getAttribute($key);
 
-		self::resolveAttributeEventListners('get_attribute_finished',
+		self::resolveAttributeEventListners('did_get_attribute',
 			$this,
 			$key
 		);
