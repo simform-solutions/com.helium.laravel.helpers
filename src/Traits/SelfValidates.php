@@ -9,10 +9,10 @@ use Helium\LaravelHelpers\Exceptions\ValidationException as HeliumValidationExce
 
 trait SelfValidates
 {
-	private $_validationRules;
-	private $_validationMessages;
-	private $_validatesOnSave;
-	private $_preLoadedRelations;
+	protected $_validationRules;
+	protected $_validationMessages;
+	protected $_validatesOnSave;
+	protected $_preLoadedRelations;
 
 	//region Helpers
 	/**
@@ -69,7 +69,7 @@ trait SelfValidates
 	/**
 	 * @description Load all model relationships required for validation
 	 */
-	private function loadRelationsForValidation(): void
+	protected function loadRelationsForValidation(): void
 	{
 		$rules = $this->getValidationRules();
 
@@ -87,7 +87,7 @@ trait SelfValidates
 	/**
 	 * @description Unload all model relationships that were not loaded prior to validation
 	 */
-	private function unloadUncachedRelations(): void
+	protected function unloadUncachedRelations(): void
 	{
 		//Get a list of all relations that were not already loaded
 		//using the list of relations that WERE already loaded

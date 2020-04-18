@@ -26,6 +26,9 @@
 		"psr-4": {
 			"Helium\\LaravelHelpers\\" : "src",
 			"Tests\\": "tests"
-		}
+		},
+		"files": [
+			"src/Helpers/helpers.php"
+		]
 	}
 }
