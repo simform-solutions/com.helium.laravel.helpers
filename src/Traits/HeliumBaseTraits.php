@@ -10,6 +10,7 @@ trait HeliumBaseTraits
 {
 	use GeneratesPrimaryKey;
 	use HasAttributeEvents;
+	use HasEnums;
 	use NestedUpdatable;
 	use SelfValidates;
 	use SoftDeletes;
