@@ -10,7 +10,7 @@ class FlexModelTest extends TestCase
 	protected const FLEX_ATTRIBUTE_INITIAL_VALUE = 'lorem ipsum';
 	protected const FLEX_ARRAY_INITIAL_VALUE = ['a', 'b', 'c'];
 
-	protected function getInstance(): TestFlexModel
+	protected function getInstance()
 	{
 		return factory(TestFlexModel::class)->create([
 			'flex_attribute' => self::FLEX_ATTRIBUTE_INITIAL_VALUE,

@@ -3,13 +3,11 @@
 namespace Tests\Models;
 
 use Helium\LaravelHelpers\Traits\FlexModel;
-use Illuminate\Database\Eloquent\Model;
+use Tests\Models\Base\TestModel;
 
-class TestFlexModel extends Model
+class TestFlexModel extends TestModel
 {
 	use FlexModel;
-
-	protected $guarded = [];
 
 	protected $casts = [
 		'flex_array' => 'array'

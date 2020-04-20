@@ -18,6 +18,10 @@ abstract class Enum
 
 		$all = array_values($reflector->getConstants());
 
+		$all = array_filter($all, function ($value) {
+			return is_string($value);
+		});
+
 		if ($acceptNull)
 		{
 			$all[] = null;

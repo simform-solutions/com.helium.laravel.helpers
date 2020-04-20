@@ -3,14 +3,12 @@
 namespace Tests\Models;
 
 use Helium\LaravelHelpers\Traits\GeneratesPrimaryKey;
-use Illuminate\Database\Eloquent\Model;
 use Tests\Enums\Color;
+use Tests\Models\Base\SetupGeneratesPrimaryKey;
+use Tests\Models\Base\TestModel;
 
-class TestGeneratesPrimaryKeyModel extends Model
+class TestGeneratesPrimaryKeyModel extends TestModel
 {
 	use GeneratesPrimaryKey;
-
-	public $primaryKeyPrefix = 'GPK';
-
-	protected $guarded = [];
+	use SetupGeneratesPrimaryKey;
 }

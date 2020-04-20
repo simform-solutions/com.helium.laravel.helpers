@@ -17,12 +17,12 @@ use Tests\TestCase;
  */
 class SelfValidatesTest extends TestCase
 {
-	protected function getInstance(): TestSelfValidatesModel
+	protected function getInstance()
 	{
 		return factory(TestSelfValidatesModel::class)->create();
 	}
 
-	protected function getInstance2(): TestSelfValidatesModel2
+	protected function getInstance2()
 	{
 		return factory(TestSelfValidatesModel2::class)->create();
 	}

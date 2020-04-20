@@ -7,7 +7,7 @@ use Tests\TestCase;
 
 class GeneratesPrimaryKeyTest extends TestCase
 {
-	protected function getInstance(): TestGeneratesPrimaryKeyModel
+	protected function getInstance()
 	{
 		return factory(TestGeneratesPrimaryKeyModel::class)->create([
 			'id' => null

@@ -32,7 +32,6 @@ class HeliumBaseTraitsTest extends TestCase
 		$this->assertContains(GeneratesPrimaryKey::class, $uses);
 		$this->assertContains(HasAttributeEvents::class, $uses);
 		$this->assertContains(HasEnums::class, $uses);
-		$this->assertContains(NestedUpdatable::class, $uses);
 		$this->assertContains(SelfValidates::class, $uses);
 		$this->assertContains(SoftDeletes::class, $uses);
 		$this->assertContains(SoftCascadeTrait::class, $uses);

@@ -7,7 +7,7 @@ use Tests\TestCase;
 
 class HasAttributeEventsTest extends TestCase
 {
-	protected function getInstance(): TestHasAttributeEventsModel
+	protected function getInstance()
 	{
 		return factory(TestHasAttributeEventsModel::class)->create();
 	}

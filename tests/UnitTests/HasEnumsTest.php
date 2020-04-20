@@ -12,7 +12,7 @@ class HasEnumsTest extends TestCase
 	protected const FAVORITE_COLOR_DEFAULT = Color::PURPLE;
 	protected const FAVORITE_PRIMARY_COLOR_DEFAULT = Color::BLUE;
 
-	protected function getInstance(): TestHasEnumsModel
+	protected function getInstance()
 	{
 		return factory(TestHasEnumsModel::class)->create([
 			'favorite_color' => self::FAVORITE_COLOR_DEFAULT,
