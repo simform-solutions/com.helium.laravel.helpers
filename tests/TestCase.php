@@ -4,9 +4,8 @@ namespace Tests;
 
 use Exception;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use Tests\Models\TestFlexModel;
 
-abstract class TestCase extends BaseTestCase
+abstract class TestfCase extends BaseTestCase
 {
 	use SetsUpTests;
 
