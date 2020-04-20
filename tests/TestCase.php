@@ -5,7 +5,7 @@ namespace Tests;
 use Exception;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
-abstract class TestfCase extends BaseTestCase
+abstract class TestCase extends BaseTestCase
 {
 	use SetsUpTests;
 

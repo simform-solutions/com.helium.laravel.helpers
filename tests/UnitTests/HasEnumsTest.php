@@ -20,6 +20,37 @@ class HasEnumsTest extends TestCase
 		]);
 	}
 
+	public function testIsEnum()
+	{
+		$model = $this->getInstance();
+
+		$this->assertTrue($model->isEnum('favorite_color'));
+		$this->assertTrue($model->isEnum('favorite_primary_color'));
+		$this->assertFalse($model->isEnum('some_attribute'));
+	}
+
+	public function testValidateEnumClass()
+	{
+		$model = $this->getInstance();
+
+		$model->validateEnum('favorite_color', self::FAVORITE_COLOR_DEFAULT);
+
+		$this->assertThrowsException(function() use ($model) {
+			$model->validateEnum('favorite_color', 'NotAColor');
+		}, EnumException::class);
+	}
+
+	public function testValidateEnumArray()
+	{
+		$model = $this->getInstance();
+
+		$model->validateEnum('favorite_primary_color', self::FAVORITE_PRIMARY_COLOR_DEFAULT);
+
+		$this->assertThrowsException(function() use ($model) {
+			$model->validateEnum('favorite_primary_color', self::FAVORITE_COLOR_DEFAULT);
+		}, EnumException::class);
+	}
+
 	public function testCreateEnumAttribute()
 	{
 		$model = $this->getInstance();

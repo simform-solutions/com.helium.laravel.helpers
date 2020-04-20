@@ -204,7 +204,6 @@ class SelfValidatesTest extends TestCase
 
 	public function testHelpfulExceptionMessageGiven()
 	{
-
 		try
 		{
 			$model = factory(TestSelfValidatesModel::class)->create();
