@@ -2,6 +2,7 @@
 
 namespace Tests\Models\Base;
 
+use Helium\LaravelHelpers\Helpers\StringHelper;
 use Tests\Models\TestHasAttributeEventsModel;
 
 trait SetupHasAttributeEvents
@@ -16,6 +17,26 @@ trait SetupHasAttributeEvents
 	public $_gettingAttributeKey = null;
 	public $_didGetAttributeCalled = false;
 	public $_didGetAttributeKey = null;
+
+	protected function setCapitalStringInternalAttribute($value)
+	{
+		return $this->attributes['capital_string_internal'] = strtoupper($value);
+	}
+
+	protected function getLowercaseStringInternalAttribute($value)
+	{
+		return strtolower($value);
+	}
+
+	protected function setCapitalStringBothAttribute($value)
+	{
+		return $this->attributes['capital_string_both'] = "CAPITAL: $value";
+	}
+
+	protected function getLowercaseStringBothAttribute($value)
+	{
+		return "lowercase: $value";
+	}
 
 	protected static function bootSetupHasAttributeEvents()
 	{
@@ -52,6 +73,22 @@ trait SetupHasAttributeEvents
 		static::didGetAttribute(function($model, $key) {
 			$model->_didGetAttributeCalled = true;
 			$model->_didGetAttributeKey = $key;
+		});
+
+		static::registerAttributeMutator('capital_string_external', function ($value) {
+			return strtoupper($value);
+		});
+
+		static::registerAttributeAccessor('lowercase_string_external', function ($value) {
+			return strtolower($value);
+		});
+
+		static::registerAttributeMutator('capital_string_both', function ($value) {
+			return strtoupper($value);
+		});
+
+		static::registerAttributeAccessor('lowercase_string_both', function ($value) {
+			return strtolower($value);
 		});
 	}
 }

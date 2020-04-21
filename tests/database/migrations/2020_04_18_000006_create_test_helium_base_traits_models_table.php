@@ -22,6 +22,8 @@ class CreateTestHeliumBaseTraitsModelsTable extends Migration
 	        $table->integer('int');
 	        $table->boolean('bool');
 	        $table->string('foreign_key');
+	        $table->string('capital_string');
+	        $table->string('lowercase_string');
 
 	        $table->foreign('foreign_key')
 		        ->references('id')

@@ -15,6 +15,18 @@ trait HasAttributeEvents
 		'getting_attribute' => [],
 		'did_get_attribute' => []
 	];
+
+	/**
+	 * @description Externally registered attribute mutators
+	 * @var array
+	 */
+	protected static $mutators = [];
+
+	/**
+	 * @description Externally registered attribute mutators
+	 * @var array
+	 */
+	protected static $accessors = [];
 	//endregion
 
 	//region Helpers
@@ -39,6 +51,28 @@ trait HasAttributeEvents
 		{
 			call_user_func_array($callback, $args);
 		}
+	}
+
+	/**
+	 * @description Determines whether this model has functions registered using
+	 * static::registerAttributeMutator
+	 * @param $key
+	 * @return bool
+	 */
+	public function hasExternallyRegisteredMutator($key)
+	{
+		return !empty(self::$mutators[$key]);
+	}
+
+	/**
+	 * @description Determines whether this model has functions registered using
+	 * static::registerAttributeAccessor
+	 * @param $key
+	 * @return bool
+	 */
+	public function hasExternallyRegisteredAccessor($key)
+	{
+		return !empty(self::$accessors[$key]);
 	}
 	//endregion
 
@@ -78,9 +112,74 @@ trait HasAttributeEvents
 	{
 		self::addAttributeEventListner('did_get_attribute', $callback);
 	}
+
+	/**
+	 * @description Register an attribute mutator function
+	 * @param string $key
+	 * @param callable $callback
+	 */
+	public static function registerAttributeMutator(string $key, callable $callback): void {
+		if (!isset(self::$mutators[$key]))
+		{
+			self::$mutators[$key] = [];
+		}
+
+		self::$mutators[$key][] = $callback;
+	}
+
+	/**
+	 * @description Register an attribute accessor function
+	 * @param string $key
+	 * @param callable $callback
+	 */
+	public static function registerAttributeAccessor(string $key, callable $callback): void {
+		if (!isset(self::$accessors[$key]))
+		{
+			self::$accessors[$key] = [];
+		}
+
+		self::$accessors[$key][] = $callback;
+	}
 	//endregion
 
 	//region Overrides
+	/**
+	 * @description Determine if a set mutator exists for an attribute.
+	 * @param  string  $key
+	 * @return bool
+	 */
+	public function hasSetMutator($key)
+	{
+		return $this->hasExternallyRegisteredMutator($key) || parent::hasSetMutator($key);
+	}
+
+	/**
+	 * Set the value of an attribute using its mutator.
+	 *
+	 * @param  string  $key
+	 * @param  mixed  $value
+	 * @return mixed
+	 */
+	protected function setMutatedAttributeValue($key, $value)
+	{
+		if ($this->hasExternallyRegisteredMutator($key))
+		{
+			foreach (self::$mutators[$key] as $callback)
+			{
+				$value = $callback($value);
+			}
+		}
+
+		if (parent::hasSetMutator($key))
+		{
+			return parent::setMutatedAttributeValue($key, $value);
+		}
+		else
+		{
+			return $this->attributes[$key] = $value;
+		}
+	}
+
 	/**
 	 * @description Set attribute with event callbacks
 	 * @param $key
@@ -104,6 +203,43 @@ trait HasAttributeEvents
 		);
 
 		return $results;
+	}
+
+	/**
+	 * @description Determine if a set mutator exists for an attribute.
+	 * @param  string  $key
+	 * @return bool
+	 */
+	public function hasGetMutator($key)
+	{
+		return $this->hasExternallyRegisteredAccessor($key) || parent::hasGetMutator($key);
+	}
+
+	/**
+	 * Get the value of an attribute using its mutator.
+	 *
+	 * @param  string  $key
+	 * @param  mixed  $value
+	 * @return mixed
+	 */
+	protected function mutateAttribute($key, $value)
+	{
+		if ($this->hasExternallyRegisteredAccessor($key))
+		{
+			foreach (self::$accessors[$key] as $callback)
+			{
+				$value = $callback($value);
+			}
+		}
+
+		if (parent::hasGetMutator($key))
+		{
+			return parent::mutateAttribute($key, $value);
+		}
+		else
+		{
+			return $value;
+		}
 	}
 
 	/**

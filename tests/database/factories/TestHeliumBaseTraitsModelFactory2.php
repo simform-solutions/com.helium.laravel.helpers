@@ -17,6 +17,12 @@ $factory->define(TestHeliumBaseTraitsModel2::class, function (Faker $faker) {
 	    'foreign_key' => function (array $testSelfValidatesModel) {
 		    $model = factory(TestGeneratesPrimaryKeyModel::class)->create();
 		    return $model->getKey();
-	    }
+	    },
+	    'capital_string_internal' => $faker->name,
+	    'lowercase_string_internal' => $faker->name,
+	    'capital_string_external' => $faker->name,
+	    'lowercase_string_external' => $faker->name,
+	    'capital_string_both' => $faker->name,
+	    'lowercase_string_both' => $faker->name,
     ];
 });
