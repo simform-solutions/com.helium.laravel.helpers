@@ -9,12 +9,14 @@ use Tests\TestCase;
 
 class HasEnumsTest extends TestCase
 {
+	protected const TEST_CLASS = TestHasEnumsModel::class;
+
 	protected const FAVORITE_COLOR_DEFAULT = Color::PURPLE;
 	protected const FAVORITE_PRIMARY_COLOR_DEFAULT = Color::BLUE;
 
 	protected function getInstance()
 	{
-		return factory(TestHasEnumsModel::class)->create([
+		return factory(self::TEST_CLASS)->create([
 			'favorite_color' => self::FAVORITE_COLOR_DEFAULT,
 			'favorite_primary_color' => self::FAVORITE_PRIMARY_COLOR_DEFAULT
 		]);

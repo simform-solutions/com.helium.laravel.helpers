@@ -15,6 +15,16 @@ abstract class PrimaryKeyGeneratorTest extends TestCase
 	{
 		$generator = $this->getInstance();
 
-		$this->assertNotEquals($generator->generate(), $generator->generate());
+		$keys = [];
+
+		//Generate 10,000 keys, ensure they are all unique
+		for ($i = 0; $i < 10000; $i++)
+		{
+			$newKey = $generator->generate();
+
+			$this->assertNotContains($newKey, $keys);
+
+			$keys[] = $newKey;
+		}
 	}
 }

@@ -7,9 +7,11 @@ use Tests\TestCase;
 
 class HasAdminsTest extends TestCase
 {
+	protected const TEST_CLASS = TestHasAdminsModel::class;
+
 	protected function getInstance($args = [])
 	{
-		return factory(TestHasAdminsModel::class)->create($args);
+		return factory(self::TEST_CLASS)->create($args);
 	}
 
 	public function testIsAdmin()

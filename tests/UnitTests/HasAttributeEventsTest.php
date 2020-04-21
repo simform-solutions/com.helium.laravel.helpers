@@ -7,9 +7,11 @@ use Tests\TestCase;
 
 class HasAttributeEventsTest extends TestCase
 {
+	protected const TEST_CLASS = TestHasAttributeEventsModel::class;
+
 	protected function getInstance()
 	{
-		return factory(TestHasAttributeEventsModel::class)->create();
+		return factory(self::TEST_CLASS)->create();
 	}
 
 	public function testSettingAttribute()

@@ -9,11 +9,5 @@ use Tests\Models\TestHeliumBaseTraitsModel;
  */
 class HeliumBaseHasEnumsTest extends HasEnumsTest
 {
-	protected function getInstance()
-	{
-		return factory(TestHeliumBaseTraitsModel::class)->create([
-			'favorite_color' => self::FAVORITE_COLOR_DEFAULT,
-			'favorite_primary_color' => self::FAVORITE_PRIMARY_COLOR_DEFAULT
-		]);
-	}
+	protected const TEST_CLASS = TestHeliumBaseTraitsModel::class;
 }

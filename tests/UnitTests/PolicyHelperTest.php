@@ -9,9 +9,11 @@ use Tests\TestCase;
 
 class PolicyHelperTest extends TestCase
 {
+	protected const TEST_CLASS = TestHasAdminsModel::class;
+
 	protected function getUser($args = [])
 	{
-		$user = factory(TestHasAdminsModel::class)->create($args);
+		$user = factory(self::TEST_CLASS)->create($args);
 
 		$this->be($user);
 

@@ -10,25 +10,6 @@ use Tests\Models\TestHeliumBaseTraitsModel2;
  */
 class HeliumBaseSelfValidatesTest extends SelfValidatesTest
 {
-	protected function getInstance()
-	{
-		try {
-			return factory(TestHeliumBaseTraitsModel::class)->create();
-		} catch (\Exception $e) {
-			println(get_class($e));
-			println($e->getTraceAsString());
-			die;
-		}
-	}
-
-	protected function getInstance2()
-	{
-		try {
-			return factory(TestHeliumBaseTraitsModel2::class)->create();
-		} catch (\Exception $e) {
-			println(get_class($e));
-			println($e->getTraceAsString());
-			die;
-		}
-	}
+	protected const TEST_CLASS = TestHeliumBaseTraitsModel::class;
+	protected const TEST_CLASS_2 = TestHeliumBaseTraitsModel2::class;
 }

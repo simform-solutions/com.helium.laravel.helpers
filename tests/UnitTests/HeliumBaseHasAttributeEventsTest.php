@@ -9,8 +9,5 @@ use Tests\Models\TestHeliumBaseTraitsModel;
  */
 class HeliumBaseHasAttributeEventsTest extends HasAttributeEventsTest
 {
-	protected function getInstance()
-	{
-		return factory(TestHeliumBaseTraitsModel::class)->create();
-	}
+	protected const TEST_CLASS = TestHeliumBaseTraitsModel::class;
 }

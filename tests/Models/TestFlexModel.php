@@ -9,6 +9,8 @@ class TestFlexModel extends TestModel
 {
 	use FlexModel;
 
+	public $flexColumn = null;
+
 	protected $casts = [
 		'flex_array' => 'array'
 	];

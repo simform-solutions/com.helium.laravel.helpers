@@ -57,7 +57,7 @@ trait FlexModel
 	 */
 	public function isFlexAttribute($key): bool
 	{
-		return !$this->isBaseAttribute($key);
+		return !$this->isBaseAttribute($key) && $key != $this->getFlexColumn();
 	}
 
 	/**

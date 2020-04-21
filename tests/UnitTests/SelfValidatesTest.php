@@ -17,14 +17,17 @@ use Tests\TestCase;
  */
 class SelfValidatesTest extends TestCase
 {
+	protected const TEST_CLASS = TestSelfValidatesModel::class;
+	protected const TEST_CLASS_2 = TestSelfValidatesModel2::class;
+
 	protected function getInstance()
 	{
-		return factory(TestSelfValidatesModel::class)->create();
+		return factory(self::TEST_CLASS)->create();
 	}
 
 	protected function getInstance2()
 	{
-		return factory(TestSelfValidatesModel2::class)->create();
+		return factory(self::TEST_CLASS_2)->create();
 	}
 
 	//region Configuration
