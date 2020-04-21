@@ -10,9 +10,15 @@ class ValidationException extends Exception
 {
 	protected $errors = [];
 
-	public function __construct(IlluminateValidationException $previous)
+	public function __construct(IlluminateValidationException $previous, array $attributes)
 	{
-		$this->errors = $previous->validator->errors()->all();
+		$this->errors = [];
+
+		foreach ($previous->validator->errors()->toArray() as $key => $errors) {
+			foreach ($errors as $error) {
+				$this->errors[] = "{$error}, value: {$attributes[$key]}";
+			}
+		}
 
 		$message = implode(PHP_EOL, $this->errors);
 

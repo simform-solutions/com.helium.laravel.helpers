@@ -197,7 +197,7 @@ class SelfValidatesTest extends TestCase
 		}
 		catch (ValidationException $e)
 		{
-			$this->assertEquals($e->toArray()[0], $model->getValidationMessages()['string.string']);
+			$this->assertStringContainsString($model->getValidationMessages()['string.string'], $e->toArray()[0]);
 
 			return;
 		}
@@ -220,6 +220,7 @@ class SelfValidatesTest extends TestCase
 			foreach ($e->toArray() as $message)
 			{
 				$this->assertStringContainsString($message, $e->getMessage());
+				$this->assertStringContainsString('123', $e->getMessage());
 			}
 
 			return;

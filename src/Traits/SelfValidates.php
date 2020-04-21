@@ -147,7 +147,7 @@ trait SelfValidates
 			//Helium\LaravelHelpers\Exceptions\ValidationException,
 			//which is more readable than the native
 			//Illuminate\Validation\ValidationException
-			throw new HeliumValidationException($e);
+			throw new HeliumValidationException($e, $this->toArray());
 		}
 	}
 	//endregion
