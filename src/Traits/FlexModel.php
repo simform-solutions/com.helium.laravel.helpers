@@ -15,7 +15,7 @@ trait FlexModel
 	 * @description Get the name of the column into which flex data is encoded
 	 * @return string
 	 */
-	protected function getFlexColumn(): string
+	public function getFlexColumn(): string
 	{
 		return $this->flexColumn ?? 'data';
 	}
@@ -26,7 +26,7 @@ trait FlexModel
 	 * @description Get table columns, except data
 	 * @return array
 	 */
-	protected function getBaseColumns(): array
+	public function getBaseColumns(): array
 	{
 		if (!$this->baseColumns)
 		{
@@ -45,7 +45,7 @@ trait FlexModel
 	 * @param $key
 	 * @return bool
 	 */
-	protected function isBaseAttribute($key): bool
+	public function isBaseAttribute($key): bool
 	{
 		return in_array($key, $this->getBaseColumns());
 	}
@@ -55,7 +55,7 @@ trait FlexModel
 	 * @param $key
 	 * @return bool
 	 */
-	protected function isFlexAttribute($key): bool
+	public function isFlexAttribute($key): bool
 	{
 		return !$this->isBaseAttribute($key);
 	}
@@ -66,7 +66,7 @@ trait FlexModel
 	 * @param array $attributes
 	 * @return array
 	 */
-	protected function filterBaseAttributes(array $attributes = [])
+	public function filterBaseAttributes(array $attributes = [])
 	{
 		return array_filter($attributes, function($key) {
 			return $this->isBaseAttribute($key);
@@ -79,7 +79,7 @@ trait FlexModel
 	 * @param array $attributes
 	 * @return array
 	 */
-	protected function filterFlexAttributes(array $attributes = [])
+	public function filterFlexAttributes(array $attributes = [])
 	{
 		return array_filter($attributes, function($key) {
 			return $this->isFlexAttribute($key);
@@ -90,7 +90,7 @@ trait FlexModel
 	 * @description Get all base table attributes
 	 * @return array
 	 */
-	protected function getBaseAttributes()
+	public function getBaseAttributes()
 	{
 		return $this->filterBaseAttributes($this->getAttributes());
 	}
@@ -99,7 +99,7 @@ trait FlexModel
 	 * @description Get all flex attributes
 	 * @return array
 	 */
-	protected function getFlexAttributes()
+	public function getFlexAttributes()
 	{
 		return $this->filterFlexAttributes($this->getAttributes());
 	}
@@ -108,7 +108,7 @@ trait FlexModel
 	 * @description Get all attributes as they will be stored in the database
 	 * @return array
 	 */
-	protected function getTableAttributes()
+	public function getTableAttributes()
 	{
 		$tableAttributes = $this->getBaseAttributes();
 		$flexAttributes = $this->getFlexAttributes();
