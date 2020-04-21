@@ -18,7 +18,7 @@ class ValidationException extends Exception
 			foreach ($errors as $error) {
 				$value = array_key_exists($key, $attributes) ? $attributes[$key] : 'null';
 
-				$this->errors[] = "{$error}, value: {$value}";
+				$this->errors[] = "{$error} (got value: {$value})";
 			}
 		}
 

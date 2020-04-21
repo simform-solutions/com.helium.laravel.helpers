@@ -220,7 +220,7 @@ class SelfValidatesTest extends TestCase
 			foreach ($e->toArray() as $message)
 			{
 				$this->assertStringContainsString($message, $e->getMessage());
-				$this->assertStringContainsString('123', $e->getMessage());
+				$this->assertStringContainsString($model->string, $e->getMessage());
 			}
 
 			return;

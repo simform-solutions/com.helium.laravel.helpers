@@ -19,7 +19,7 @@ class StringHelper
 
 		$output = '';
 
-		for ($i = 0; $i < $len; $i++) {
+		for ($i = 0; $i < $length; $i++) {
 			$output .= $charSet[rand(0, count($charSet) - 1)];
 		}
 
@@ -35,7 +35,7 @@ class StringHelper
 
 		$numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-		return self::randomToken($numbers, $len);
+		return self::randomToken($numbers, $length);
 	}
 
 	/**
@@ -45,8 +45,9 @@ class StringHelper
 	 * @throws \Exception
 	 */
 	public static function randomAlphaNumericalToken (int $length) {
-		$length = ($length < 4) ? 4 : $length;
-		return bin2hex(random_bytes(($length - ($length % 2)) / 2));
+		$numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'];
+
+		return self::randomToken($numbers, $length);
 	}
 
 	/**
