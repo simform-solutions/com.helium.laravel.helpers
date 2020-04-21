@@ -9,9 +9,6 @@ use Helium\LaravelHelpers\Exceptions\ValidationException as HeliumValidationExce
 
 trait SelfValidates
 {
-	protected $_validationRules;
-	protected $_validationMessages;
-	protected $_validatesOnSave;
 	protected $_preLoadedRelations;
 
 	//region Helpers
@@ -21,15 +18,11 @@ trait SelfValidates
 	 */
 	public function getValidationRules(): array
 	{
-		if (!$this->_validationRules) {
-			if (method_exists($this, 'validationRules')) {
-				$this->_validationRules = $this->validationRules();
-			} else {
-				$this->_validationRules = $this->validationRules ?? [];
-			}
+		if (method_exists($this, 'validationRules')) {
+			return $this->validationRules();
+		} else {
+			return $this->validationRules ?? [];
 		}
-
-		return $this->_validationRules;
 	}
 
 	/**
@@ -38,15 +31,11 @@ trait SelfValidates
 	 */
 	public function getValidationMessages(): array
 	{
-		if (!$this->_validationMessages) {
-			if (method_exists($this, 'validationMessages')) {
-				$this->_validationMessages = $this->validationMessages();
-			} else {
-				$this->_validationMessages = $this->validationMessages ?? [];
-			}
+		if (method_exists($this, 'validationMessages')) {
+			return $this->validationMessages();
+		} else {
+			return $this->validationMessages ?? [];
 		}
-
-		return $this->_validationMessages;
 	}
 
 	/**
@@ -55,15 +44,11 @@ trait SelfValidates
 	 */
 	public function getValidatesOnSave(): bool
 	{
-		if (!$this->_validatesOnSave) {
-			if (method_exists($this, 'validatesOnSave')) {
-				$this->_validatesOnSave = $this->validatesOnSave();
-			} else {
-				$this->_validatesOnSave = $this->validatesOnSave ?? true;
-			}
+		if (method_exists($this, 'validatesOnSave')) {
+			return $this->validatesOnSave();
+		} else {
+			return $this->validatesOnSave ?? true;
 		}
-
-		return $this->_validatesOnSave;
 	}
 
 	/**
