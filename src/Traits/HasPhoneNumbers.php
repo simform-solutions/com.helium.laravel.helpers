@@ -29,7 +29,7 @@ trait HasPhoneNumbers
 		foreach ($model->getPhoneNumbers() as $attribute)
 		{
 			static::registerAttributeMutator($attribute, function ($value) use ($attribute) {
-				return StringHelper::onlyNumeric($value);
+				return str_replace('.', '', StringHelper::onlyNumeric($value));
 			});
 		}
 	}

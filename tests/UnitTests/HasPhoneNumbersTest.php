@@ -15,7 +15,7 @@ class HasPhoneNumbersTest extends TestCase
 	protected function getInstance()
 	{
 		return factory(self::TEST_CLASS)->create([
-			'phone' => "(000)000-0000",
+			'phone' => "000,000.0000",
 			'phone_custom' => "(000) 000 - 0000"
 		]);
 	}
