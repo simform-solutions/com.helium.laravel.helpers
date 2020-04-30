@@ -141,27 +141,6 @@ class SelfValidatesTest extends TestCase
 		$this->assertTrue(false);
 	}
 
-	public function testValidationExceptionToCollection()
-	{
-		try
-		{
-			$model = factory(TestSelfValidatesModel::class)->create();
-
-			$model->string = 123;
-
-			$model->validate();
-		}
-		catch (ValidationException $e)
-		{
-			$this->assertInstanceOf(Collection::class, $e->toCollection());
-			$this->assertCount(1, $e->toCollection());
-
-			return;
-		}
-
-		$this->assertTrue(false);
-	}
-
 	public function testDefaultValidationMessageUsed()
 	{
 		try
@@ -177,7 +156,18 @@ class SelfValidatesTest extends TestCase
 		}
 		catch (ValidationException $e)
 		{
-			$this->assertNotEquals($e->toArray()[0], $messages['string.string']);
+			$this->assertArrayHasKey('string', $e->toArray(false));
+			$this->assertArrayHasKey('string', $e->toArray(true));
+
+			$this->assertNotEquals(
+				$e->toArray(true)['string'][0],
+				$messages['string.string']
+			);
+
+			$this->assertNotEquals(
+				$e->toArray(false)['string'][0],
+				$messages['string.string']
+			);
 
 			return;
 		}
@@ -197,7 +187,16 @@ class SelfValidatesTest extends TestCase
 		}
 		catch (ValidationException $e)
 		{
-			$this->assertStringContainsString($model->getValidationMessages()['string.string'], $e->toArray()[0]);
+			$this->assertArrayHasKey('string', $e->toArray(false));
+			$this->assertArrayHasKey('string', $e->toArray(true));
+
+			$this->assertStringContainsString(
+				$model->getValidationMessages()['string.string'],
+				$e->toArray(true)['string'][0]);
+
+			$this->assertStringContainsString(
+				$model->getValidationMessages()['string.string'],
+				$e->toArray(false)['string'][0]);
 
 			return;
 		}
@@ -217,10 +216,18 @@ class SelfValidatesTest extends TestCase
 		}
 		catch (ValidationException $e)
 		{
-			foreach ($e->toArray() as $message)
+			$this->assertArrayHasKey('string', $e->toArray(false));
+			$this->assertArrayHasKey('string', $e->toArray(true));
+
+			foreach ($e->toArray(false)['string'] as $message)
 			{
-				$this->assertStringContainsString($message, $e->getMessage());
-				$this->assertStringContainsString($model->string, $e->getMessage());
+				$this->assertStringContainsString('string', $message);
+			}
+
+			foreach ($e->toArray(true)['string'] as $message)
+			{
+				$this->assertStringContainsString('string', $message);
+				$this->assertStringContainsString($model->string, $message);
 			}
 
 			return;
