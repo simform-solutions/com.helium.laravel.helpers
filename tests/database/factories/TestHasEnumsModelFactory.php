@@ -2,8 +2,8 @@
 
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
-use Tests\Enums\Color;
-use Tests\Models\TestHasEnumsModel;
+use Tests\TestEnums\Color;
+use Tests\TestModels\TestHasEnumsModel;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(TestHasEnumsModel::class, function (Faker $faker) {

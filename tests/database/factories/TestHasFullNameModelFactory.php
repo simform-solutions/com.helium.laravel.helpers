@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
-use Tests\Models\TestHasFullNameModel;
+use Tests\TestModels\TestHasFullNameModel;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(TestHasFullNameModel::class, function (Faker $faker) {

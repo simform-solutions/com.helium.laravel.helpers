@@ -19,12 +19,11 @@ class ApiExceptionHandler extends Handler
 			$e instanceof UnauthorizedException ||
 			$e instanceof AuthenticationException)
 		{
-			return response()->json(new ApiErrorResource($e));
+			return new ApiErrorResource($e);
 		}
 		else
 		{
-			return response()
-				->json(new ApiErrorResource(new InternalServerException($e)));
+			return new ApiErrorResource(new InternalServerException($e));
 		}
 	}
 }

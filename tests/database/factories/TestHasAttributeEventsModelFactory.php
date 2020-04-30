@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
-use Tests\Models\TestHasAttributeEventsModel;
+use Tests\TestModels\TestHasAttributeEventsModel;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(TestHasAttributeEventsModel::class, function (Faker $faker) {
