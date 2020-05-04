@@ -8,8 +8,10 @@ use Helium\LaravelHelpers\Exceptions\UserException;
 use Helium\LaravelHelpers\Exceptions\ValidationException;
 use Helium\LaravelHelpers\Handlers\ApiExceptionHandler;
 use Helium\LaravelHelpers\Resources\ApiErrorResource;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Container\Container;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\UnauthorizedException;
 use Tests\TestCase;
@@ -29,12 +31,9 @@ class ApiExceptionHandlerTest extends TestCase
 		$request = new Request();
 		$response = $handler->render($request, $e);
 
-		$this->assertInstanceOf(
-			ApiErrorResource::class,
-			$response
-		);
+		$this->assertEquals(500, $response->getStatusCode());
 
-		$array = $response->toArray($request);
+		$array = $response->getData(true);
 
 		$this->assertCount(3, $array);
 
@@ -53,7 +52,9 @@ class ApiExceptionHandlerTest extends TestCase
 		$exceptions = [
 			new UserException(),
 			new AuthenticationException(),
-			new UnauthorizedException()
+			new AuthorizationException(),
+			new UnauthorizedException(),
+			new ModelNotFoundException()
 		];
 
 		try {
@@ -72,22 +73,32 @@ class ApiExceptionHandlerTest extends TestCase
 			$request = new Request();
 			$response = $handler->render($request, $e);
 
-			$this->assertInstanceOf(
-				ApiErrorResource::class,
-				$response
-			);
-
-			$array = $response->toArray($request);
+			$array = $response->getData(true);
 
 			if ($e instanceof ValidationException)
 			{
+				$this->assertEquals(400, $response->getStatusCode());
+
 				$this->assertCount(2, $array);
 
 				$this->assertArrayHasKey('messages', $array);
 				$this->assertEquals($array['messages'], $e->toArray());
 			}
+			elseif ($e instanceof AuthenticationException ||
+					$e instanceof AuthorizationException ||
+					$e instanceof UnauthorizedException)
+			{
+				$this->assertEquals(401, $response->getStatusCode());
+				$this->assertCount(1, $array);
+			}
+			elseif ($e instanceof ModelNotFoundException)
+			{
+				$this->assertEquals(404, $response->getStatusCode());
+				$this->assertCount(1, $array);
+			}
 			else
 			{
+				$this->assertEquals(500, $response->getStatusCode());
 				$this->assertCount(1, $array);
 			}
 
@@ -107,7 +118,7 @@ class ApiExceptionHandlerTest extends TestCase
 		$request = new Request();
 		$response = $handler->render($request, $e);
 
-		$array = $response->toArray($request);
+		$array = $response->getData(true);
 
 		$this->assertCount(1, $array);
 
