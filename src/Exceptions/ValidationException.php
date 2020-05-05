@@ -20,7 +20,7 @@ class ValidationException extends ApiException
 		}, $this->toArray($debug));
 		$message = implode(PHP_EOL, $messages);
 
-		parent::__construct($message, 0, $previous);
+		parent::__construct($message, 400, $previous);
 	}
 
 	/**

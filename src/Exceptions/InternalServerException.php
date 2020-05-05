@@ -12,6 +12,6 @@ class InternalServerException extends ApiException
 		$message = Lang::has('error.general') ?
 			trans('error.general') : trans('heliumHelpers::error.general');
 
-		parent::__construct($message, 0, $previous);
+		parent::__construct($message, 500, $previous);
 	}
 }

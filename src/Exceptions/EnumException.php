@@ -2,10 +2,9 @@
 
 namespace Helium\LaravelHelpers\Exceptions;
 
-use Exception;
 use Illuminate\Validation\ValidationException as IlluminateValidationException;
 
-class EnumException extends Exception
+class EnumException extends ApiException
 {
 	protected $key;
 	protected $value;
@@ -17,7 +16,8 @@ class EnumException extends Exception
 		$this->value = $value;
 		$this->enumValues = $enumValues;
 
-		parent::__construct("'$value' is not in the specified enum values for '$key'");
+		parent::__construct("'$value' is not in the specified enum values for '$key'",
+			400);
 	}
 
 	/**

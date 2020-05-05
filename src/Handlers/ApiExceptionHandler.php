@@ -28,10 +28,6 @@ class ApiExceptionHandler extends Handler
 		{
 			$statusCode = Response::HTTP_NOT_FOUND;
 		}
-		elseif ($e instanceof ValidationException)
-		{
-			$statusCode = Response::HTTP_BAD_REQUEST;
-		}
 		elseif ($e instanceof ApiException)
 		{
 			$statusCode = $e->httpStatusCode;
