@@ -4,7 +4,7 @@ namespace Tests\Handlers;
 
 use Exception;
 use Helium\LaravelHelpers\Exceptions\InternalServerException;
-use Helium\LaravelHelpers\Exceptions\UserException;
+use Helium\LaravelHelpers\Exceptions\ApiException;
 use Helium\LaravelHelpers\Exceptions\ValidationException;
 use Helium\LaravelHelpers\Handlers\ApiExceptionHandler;
 use Helium\LaravelHelpers\Resources\ApiErrorResource;
@@ -50,7 +50,7 @@ class ApiExceptionHandlerTest extends TestCase
 	public function testDetailedExceptions()
 	{
 		$exceptions = [
-			new UserException(),
+			new ApiException(),
 			new AuthenticationException(),
 			new AuthorizationException(),
 			new UnauthorizedException(),

@@ -5,7 +5,7 @@ namespace Helium\LaravelHelpers\Exceptions;
 use Illuminate\Support\Facades\Lang;
 use Throwable;
 
-class InternalServerException extends UserException
+class InternalServerException extends ApiException
 {
 	public function __construct(Throwable $previous = null)
 	{

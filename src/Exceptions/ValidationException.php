@@ -5,7 +5,7 @@ namespace Helium\LaravelHelpers\Exceptions;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException as IlluminateValidationException;
 
-class ValidationException extends UserException
+class ValidationException extends ApiException
 {
 	protected $errors = [];
 

@@ -3,7 +3,7 @@
 namespace Helium\LaravelHelpers\Handlers;
 
 use Helium\LaravelHelpers\Exceptions\InternalServerException;
-use Helium\LaravelHelpers\Exceptions\UserException;
+use Helium\LaravelHelpers\Exceptions\ApiException;
 use Helium\LaravelHelpers\Exceptions\ValidationException;
 use Helium\LaravelHelpers\Resources\ApiErrorResource;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -32,13 +32,17 @@ class ApiExceptionHandler extends Handler
 		{
 			$statusCode = Response::HTTP_BAD_REQUEST;
 		}
+		elseif ($e instanceof ApiException)
+		{
+			$statusCode = $e->httpStatusCode;
+		}
 		else
 		{
 			$statusCode = Response::HTTP_INTERNAL_SERVER_ERROR;
 		}
 
 		if (config('app.debug') ||
-			$e instanceof UserException ||
+			$e instanceof ApiException ||
 			$e instanceof UnauthorizedException ||
 			$e instanceof AuthorizationException ||
 			$e instanceof AuthenticationException ||
