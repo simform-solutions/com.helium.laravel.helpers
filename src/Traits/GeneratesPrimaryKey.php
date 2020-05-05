@@ -30,7 +30,16 @@ trait GeneratesPrimaryKey
 	{
 		return false;
 	}
-	//
+
+	/**
+	 * @description Enable string keys
+	 * @return string
+	 */
+	public function getKeyType()
+	{
+		return 'string';
+	}
+	//endregion
 
 	//region Functions
 	/**

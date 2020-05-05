@@ -1,7 +1,7 @@
 {
     "name": "helium/laravel-helpers",
     "description": "A collection of common use traits and functions for Laravel",
-	"version": "1.0.13",
+	"version": "1.0.14",
     "type": "library",
     "license": "MIT",
     "authors": [
