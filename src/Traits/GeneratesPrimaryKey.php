@@ -48,9 +48,15 @@ trait GeneratesPrimaryKey
 	public static function bootGeneratesPrimaryKey()
 	{
 		self::creating(function (Model $model) {
-			$primaryKey = $model->getKeyName();
+			if (!$model->getKey())
+			{
+				$primaryKey = $model->getKeyName();
 
-			$model->setAttribute($primaryKey, $model->getPrimaryKeyGenerator()->generate());
+				$model->setAttribute(
+					$primaryKey,
+					$model->getPrimaryKeyGenerator()->generate()
+				);
+			}
 		});
 	}
 	//endregion

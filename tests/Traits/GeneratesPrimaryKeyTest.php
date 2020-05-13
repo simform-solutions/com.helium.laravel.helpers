@@ -24,6 +24,15 @@ class GeneratesPrimaryKeyTest extends TestCase
 		$this->assertRegExp("/^{$model->primaryKeyPrefix}-[a-f0-9]{32}$/", $model->getKey());
 	}
 
+	public function testCreateIdAlreadySet()
+	{
+		$model = factory(self::TEST_CLASS)->create([
+			'id' => 'abc123'
+		]);
+
+		$this->assertEquals('abc123', $model->id);
+	}
+
 	public function testUpdate()
 	{
 		/**
