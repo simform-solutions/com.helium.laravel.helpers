@@ -5,6 +5,7 @@ namespace Helium\LaravelHelpers\Traits;
 use Helium\LaravelHelpers\Helpers\StringHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException as IlluminateValidationException;
 use Helium\LaravelHelpers\Exceptions\ValidationException as HeliumValidationException;
 
@@ -29,7 +30,7 @@ trait HasPhoneNumbers
 		foreach ($model->getPhoneNumbers() as $attribute)
 		{
 			static::registerAttributeMutator($attribute, function ($value) use ($attribute) {
-				return str_replace('.', '', StringHelper::onlyNumeric($value));
+				return strval(Str::of($value)->replaceMatches('/[^0-9]/', ''));
 			});
 		}
 	}
