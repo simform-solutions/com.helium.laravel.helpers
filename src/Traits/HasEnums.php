@@ -18,7 +18,7 @@ trait HasEnums
 	 */
 	public function isEnum($key): bool
 	{
-		return isset($this->enums) && array_key_exists($key, $this->enums);
+		return array_key_exists($key, $this->enums());
 	}
 
 	/**
@@ -52,6 +52,11 @@ trait HasEnums
 	//endregion
 
 	//region Functions
+	protected function enums(): array
+	{
+		return $this->enums ?? [];
+	}
+
 	/**
 	 * @description Register enum validation on setting attributes
 	 */
