@@ -54,7 +54,7 @@ trait HasEnums
 	//region Functions
 	protected function enums(): array
 	{
-		return $this->enums ?? [];
+		return property_exists($this, 'enums') ? $this->enums : [];
 	}
 
 	/**

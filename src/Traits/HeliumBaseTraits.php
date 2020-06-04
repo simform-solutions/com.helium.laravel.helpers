@@ -14,4 +14,5 @@ trait HeliumBaseTraits
 	use SelfValidates;
 	use SoftDeletes;
 	use SoftCascadeTrait;
+	use DefaultOrdering;
 }
