@@ -13,7 +13,7 @@ class DefaultOrderingTest extends TestCase
 		$sql = TestDefaultOrderingModel::query()->toSql();
 
 		$this->assertStringContainsString('order by', $sql);
-		$this->assertStringContainsString('"updated_at" desc', $sql);
+		$this->assertStringContainsString('"test_default_ordering_models"."updated_at" desc', $sql);
 	}
 
 	public function testSpecifiedOrdering()
@@ -21,7 +21,7 @@ class DefaultOrderingTest extends TestCase
 		$sql = TestDefaultOrderingModel2::query()->toSql();
 
 		$this->assertStringContainsString('order by', $sql);
-		$this->assertStringContainsString('"created_at" desc', $sql);
-		$this->assertStringContainsString('"updated_at" asc', $sql);
+		$this->assertStringContainsString('"test_default_ordering_models"."created_at" desc', $sql);
+		$this->assertStringContainsString('"test_default_ordering_models"."updated_at" asc', $sql);
 	}
 }

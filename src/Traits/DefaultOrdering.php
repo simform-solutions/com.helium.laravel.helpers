@@ -15,11 +15,13 @@ trait DefaultOrdering
 	public static function bootDefaultOrdering()
 	{
 		static::addGlobalScope('defaultOrdering', function (Builder $builder) {
-			$defaultOrderings = (new static)->defaultOrderings();
+			$instance = new static;
+			$table = $instance->getTable();
+			$defaultOrderings = $instance->defaultOrderings();
 
 			foreach ($defaultOrderings as $key => $direction)
 			{
-				$builder = $builder->orderBy($key, $direction);
+				$builder = $builder->orderBy("$table.$key", $direction);
 			}
 
 			return $builder;
