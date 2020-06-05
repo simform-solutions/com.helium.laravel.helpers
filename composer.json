@@ -15,7 +15,8 @@
 		"illuminate/validation": "^5.8||^6.0||^7.0",
 		"ramsey/uuid": "^4.0",
         "czim/laravel-nestedupdater": "^2.0",
-        "askedio/laravel-soft-cascade": "^5.0||^6.0|^7.0"
+        "askedio/laravel-soft-cascade": "^5.0||^6.0|^7.0",
+        "haydenpierce/class-finder": "^0.4.2"
 	},
     "require-dev": {
 		"orchestra/testbench": "^3.8.5 || ^4.0 || ^5.0",
