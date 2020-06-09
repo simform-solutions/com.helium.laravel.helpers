@@ -25,7 +25,7 @@ class ApiErrorResource extends JsonResource
 
 		$debug = config('app.debug', false);
 
-		if ($this->resource instanceof ValidationException)
+		if (method_exists($this->resource, 'toArray'))
 		{
 			$data['messages'] = $this->resource->toArray($debug);
 		}
