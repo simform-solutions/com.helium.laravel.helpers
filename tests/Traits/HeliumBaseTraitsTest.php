@@ -5,6 +5,8 @@ namespace Tests\Traits;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Czim\NestedModelUpdater\Traits\NestedUpdatable;
 use Helium\LaravelHelpers\Exceptions\ValidationException;
+use Helium\LaravelHelpers\Traits\BulkActions;
+use Helium\LaravelHelpers\Traits\DefaultOrdering;
 use Helium\LaravelHelpers\Traits\GeneratesPrimaryKey;
 use Helium\LaravelHelpers\Traits\HasAttributeEvents;
 use Helium\LaravelHelpers\Traits\HasEnums;
@@ -35,5 +37,7 @@ class HeliumBaseTraitsTest extends TestCase
 		$this->assertContains(SelfValidates::class, $uses);
 		$this->assertContains(SoftDeletes::class, $uses);
 		$this->assertContains(SoftCascadeTrait::class, $uses);
+		$this->assertContains(DefaultOrdering::class, $uses);
+		$this->assertContains(BulkActions::class, $uses);
 	}
 }

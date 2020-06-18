@@ -12,6 +12,7 @@ class HeliumHelpersServiceProvider extends ServiceProvider
 
 		$this->publishes([
 			__DIR__ . '/../lang/' => resource_path('lang/vendor/heliumHelpers'),
+			__DIR__ . '/../config/batch.php' => config_path('batch.php')
 		]);
 
 		if ($this->app->runningInConsole())

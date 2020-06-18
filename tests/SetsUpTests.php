@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use Helium\LaravelHelpers\Providers\HeliumHelpersServiceProvider;
+
 trait SetsUpTests
 {
 	protected function setUp(): void
@@ -10,6 +12,13 @@ trait SetsUpTests
 
 		$this->withFactories(__DIR__ . '/database/factories');
 		$this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+	}
+
+	protected function getPackageProviders($app)
+	{
+		return [
+			HeliumHelpersServiceProvider::class
+		];
 	}
 
 	protected function getEnvironmentSetUp($app)

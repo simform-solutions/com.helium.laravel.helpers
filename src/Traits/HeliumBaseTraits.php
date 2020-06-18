@@ -15,4 +15,5 @@ trait HeliumBaseTraits
 	use SoftDeletes;
 	use SoftCascadeTrait;
 	use DefaultOrdering;
+	use BulkActions;
 }
