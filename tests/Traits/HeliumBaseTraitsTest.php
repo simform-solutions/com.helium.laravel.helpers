@@ -14,8 +14,8 @@ use Helium\LaravelHelpers\Traits\HeliumBaseTraits;
 use Helium\LaravelHelpers\Traits\SelfValidates;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
-use Tests\TestModels\TestSelfValidatesModel;
-use Tests\TestModels\TestSelfValidatesModel2;
+use Tests\TestModels\SelfValidatesModel;
+use Tests\TestModels\SelfValidatesModel2;
 use Tests\TestCase;
 
 /**

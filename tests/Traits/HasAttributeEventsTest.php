@@ -2,12 +2,12 @@
 
 namespace Tests\Traits;
 
-use Tests\TestModels\TestHasAttributeEventsModel;
+use Tests\TestModels\HasAttributeEventsModel;
 use Tests\TestCase;
 
 class HasAttributeEventsTest extends TestCase
 {
-	protected const TEST_CLASS = TestHasAttributeEventsModel::class;
+	protected const TEST_CLASS = HasAttributeEventsModel::class;
 
 	protected function getInstance()
 	{

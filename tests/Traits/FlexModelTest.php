@@ -3,12 +3,12 @@
 namespace Tests\Traits;
 
 use Carbon\Carbon;
-use Tests\TestModels\TestFlexModel;
+use Tests\TestModels\FlexModelModel;
 use Tests\TestCase;
 
 class FlexModelTest extends TestCase
 {
-	protected const TEST_CLASS = TestFlexModel::class;
+	protected const TEST_CLASS = FlexModelModel::class;
 
 	protected const FLEX_ATTRIBUTE_INITIAL_VALUE = 'lorem ipsum';
 	protected const FLEX_ARRAY_INITIAL_VALUE = ['a', 'b', 'c'];
@@ -282,7 +282,7 @@ class FlexModelTest extends TestCase
 
 		$id = $model->getKey();
 
-		$model = TestFlexModel::find($id);
+		$model = FlexModelModel::find($id);
 
 		$this->assertEquals($model->flex_attribute, self::FLEX_ATTRIBUTE_INITIAL_VALUE);
 	}
@@ -323,7 +323,7 @@ class FlexModelTest extends TestCase
 
 		$id = $model->getKey();
 
-		$model = TestFlexModel::find($id);
+		$model = FlexModelModel::find($id);
 
 		$this->assertIsArray($model->flex_array);
 		$this->assertEquals($model->flex_array, self::FLEX_ARRAY_INITIAL_VALUE);

@@ -4,12 +4,12 @@ namespace Tests\Helpers;
 
 use Helium\LaravelHelpers\Helpers\PolicyHelper;
 use Illuminate\Support\Facades\Auth;
-use Tests\TestModels\TestHasAdminsModel;
+use Tests\TestModels\HasAdminsModel;
 use Tests\TestCase;
 
 class PolicyHelperTest extends TestCase
 {
-	protected const TEST_CLASS = TestHasAdminsModel::class;
+	protected const TEST_CLASS = HasAdminsModel::class;
 
 	protected function getUser($args = [])
 	{

@@ -2,12 +2,12 @@
 
 namespace Tests\Traits;
 
-use Tests\TestModels\TestGeneratesPrimaryKeyModel;
+use Tests\TestModels\GeneratesPrimaryKeyModel;
 use Tests\TestCase;
 
 class GeneratesPrimaryKeyTest extends TestCase
 {
-	protected const TEST_CLASS = TestGeneratesPrimaryKeyModel::class;
+	protected const TEST_CLASS = GeneratesPrimaryKeyModel::class;
 
 	protected function getInstance()
 	{

@@ -4,12 +4,12 @@ namespace Tests\Traits;
 
 use Helium\LaravelHelpers\Exceptions\EnumException;
 use Tests\TestEnums\Color;
-use Tests\TestModels\TestHasEnumsModel;
+use Tests\TestModels\HasEnumsModel;
 use Tests\TestCase;
 
 class HasEnumsTest extends TestCase
 {
-	protected const TEST_CLASS = TestHasEnumsModel::class;
+	protected const TEST_CLASS = HasEnumsModel::class;
 
 	protected const FAVORITE_COLOR_DEFAULT = Color::PURPLE;
 	protected const FAVORITE_PRIMARY_COLOR_DEFAULT = Color::BLUE;
@@ -74,7 +74,7 @@ class HasEnumsTest extends TestCase
 		 * Test that value constrained by enum class successfully rejects
 		 */
 		$this->assertThrowsException(function() {
-			factory(TestHasEnumsModel::class)->create([
+			factory(HasEnumsModel::class)->create([
 				'favorite_color' => 'NotAColor'
 			]);
 		}, EnumException::class);
@@ -83,7 +83,7 @@ class HasEnumsTest extends TestCase
 		 * Test that value constrained by array successfully rejects
 		 */
 		$this->assertThrowsException(function() {
-			factory(TestHasEnumsModel::class)->create([
+			factory(HasEnumsModel::class)->create([
 				'favorite_primary_color' => Color::PURPLE //Not in Color::PRIMARY
 			]);
 		}, EnumException::class);

@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 trait HeliumBaseTraits
 {
+    use BulkActions;
+    use DefaultOrdering;
+    use HasAttributeEvents;
+    use HasEnums;
 	use GeneratesPrimaryKey;
-	use HasAttributeEvents;
-	use HasEnums;
+    use SoftDeletes;
 	use SelfValidates;
-	use SoftDeletes;
 	use SoftCascadeTrait;
-	use DefaultOrdering;
-	use BulkActions;
 }

@@ -7,7 +7,7 @@ use Helium\LaravelHelpers\Exceptions\ValidationException;
 use Helium\LaravelHelpers\Resources\ApiErrorResource;
 use Illuminate\Http\Request;
 use Tests\TestCase;
-use Tests\TestModels\TestSelfValidatesModel;
+use Tests\TestModels\SelfValidatesModel;
 
 class ApiErrorResourceTest extends TestCase
 {
@@ -28,7 +28,7 @@ class ApiErrorResourceTest extends TestCase
 	public function testValidationException()
 	{
 		try {
-			factory(TestSelfValidatesModel::class)->make([
+			factory(SelfValidatesModel::class)->make([
 				'string' => null
 			])->validate();
 

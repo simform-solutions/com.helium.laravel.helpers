@@ -2,12 +2,12 @@
 
 namespace Tests\Traits;
 
-use Tests\TestModels\TestHasAdminsModel;
+use Tests\TestModels\HasAdminsModel;
 use Tests\TestCase;
 
 class HasAdminsTest extends TestCase
 {
-	protected const TEST_CLASS = TestHasAdminsModel::class;
+	protected const TEST_CLASS = HasAdminsModel::class;
 
 	protected function getInstance($args = [])
 	{

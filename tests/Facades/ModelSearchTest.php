@@ -4,52 +4,52 @@ namespace Tests\Facades;
 
 use Helium\LaravelHelpers\Facades\ModelSearch;
 use Tests\TestCase;
-use Tests\TestModels\TestSearchModel;
+use Tests\TestModels\SearchModel;
 
 class ModelSearchTest extends TestCase
 {
 	public function testSearch()
 	{
-		factory(TestSearchModel::class, 5)->create([
+		factory(SearchModel::class, 5)->create([
 			'age' => 16
 		]);
 
-		factory(TestSearchModel::class, 5)->create([
+		factory(SearchModel::class, 5)->create([
 			'age' => 20,
-            'parent_id' => TestSearchModel::first()->id
+            'parent_id' => SearchModel::first()->id
 		]);
 
-		factory(TestSearchModel::class, 5)->create([
+		factory(SearchModel::class, 5)->create([
 			'age' => 25,
-            'parent_id' => TestSearchModel::first()->id
+            'parent_id' => SearchModel::first()->id
 		]);
 
-		factory(TestSearchModel::class, 5)->create([
+		factory(SearchModel::class, 5)->create([
 			'age' => 30,
-            'parent_id' => TestSearchModel::first()->id
+            'parent_id' => SearchModel::first()->id
 		]);
 
-		factory(TestSearchModel::class, 5)->create([
+		factory(SearchModel::class, 5)->create([
 			'age' => 35,
-            'parent_id' => TestSearchModel::first()->id
+            'parent_id' => SearchModel::first()->id
 		]);
 
-		factory(TestSearchModel::class, 5)->create([
+		factory(SearchModel::class, 5)->create([
 			'age' => 40,
-            'parent_id' => TestSearchModel::first()->id
+            'parent_id' => SearchModel::first()->id
 		]);
 
-		factory(TestSearchModel::class, 5)->create([
+		factory(SearchModel::class, 5)->create([
 			'age' => 45,
-            'parent_id' => TestSearchModel::first()->id
+            'parent_id' => SearchModel::first()->id
 		]);
 
-		factory(TestSearchModel::class, 5)->create([
+		factory(SearchModel::class, 5)->create([
 			'age' => 90,
-            'parent_id' => TestSearchModel::first()->id
+            'parent_id' => SearchModel::first()->id
 		]);
 
-		$list = ModelSearch::search(TestSearchModel::query(), [
+		$list = ModelSearch::search(SearchModel::query(), [
 			'filters' => [
 				'age' => [
 					'gt' => 18,

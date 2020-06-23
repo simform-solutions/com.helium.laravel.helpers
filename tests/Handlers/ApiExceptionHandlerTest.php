@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\UnauthorizedException;
 use Tests\TestCase;
-use Tests\TestModels\TestSelfValidatesModel;
+use Tests\TestModels\SelfValidatesModel;
 
 class ApiExceptionHandlerTest extends TestCase
 {
@@ -58,7 +58,7 @@ class ApiExceptionHandlerTest extends TestCase
 		];
 
 		try {
-			factory(TestSelfValidatesModel::class)->make([
+			factory(SelfValidatesModel::class)->make([
 				'string' => null
 			])->validate();
 

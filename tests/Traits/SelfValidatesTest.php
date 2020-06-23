@@ -4,8 +4,8 @@ namespace Tests\Traits;
 
 use Helium\LaravelHelpers\Exceptions\ValidationException;
 use Illuminate\Support\Collection;
-use Tests\TestModels\TestSelfValidatesModel;
-use Tests\TestModels\TestSelfValidatesModel2;
+use Tests\TestModels\SelfValidatesModel;
+use Tests\TestModels\SelfValidatesModel2;
 use Tests\TestCase;
 
 /**
@@ -17,8 +17,8 @@ use Tests\TestCase;
  */
 class SelfValidatesTest extends TestCase
 {
-	protected const TEST_CLASS = TestSelfValidatesModel::class;
-	protected const TEST_CLASS_2 = TestSelfValidatesModel2::class;
+	protected const TEST_CLASS = SelfValidatesModel::class;
+	protected const TEST_CLASS_2 = SelfValidatesModel2::class;
 
 	protected function getInstance()
 	{
@@ -79,7 +79,7 @@ class SelfValidatesTest extends TestCase
 	{
 		try
 		{
-			$model = factory(TestSelfValidatesModel::class)->create();
+			$model = factory(SelfValidatesModel::class)->create();
 
 			$model->string = 123;
 
@@ -98,7 +98,7 @@ class SelfValidatesTest extends TestCase
 	public function testDoesValidateOnSave()
 	{
 		$this->assertThrowsException(function() {
-			$model = factory(TestSelfValidatesModel::class)->create();
+			$model = factory(SelfValidatesModel::class)->create();
 
 			$model->validatesOnSave = true;
 			$model->string = 123;
@@ -110,7 +110,7 @@ class SelfValidatesTest extends TestCase
 	public function testManualValidate()
 	{
 		$this->assertThrowsException(function() {
-			$model = factory(TestSelfValidatesModel::class)->create();
+			$model = factory(SelfValidatesModel::class)->create();
 
 			$model->string = 123;
 
@@ -124,7 +124,7 @@ class SelfValidatesTest extends TestCase
 	{
 		try
 		{
-			$model = factory(TestSelfValidatesModel::class)->create();
+			$model = factory(SelfValidatesModel::class)->create();
 
 			$model->string = 123;
 
@@ -145,7 +145,7 @@ class SelfValidatesTest extends TestCase
 	{
 		try
 		{
-			$model = factory(TestSelfValidatesModel::class)->create();
+			$model = factory(SelfValidatesModel::class)->create();
 
 			$messages = $model->validationMessages;
 			unset($model->validationMessages);
@@ -179,7 +179,7 @@ class SelfValidatesTest extends TestCase
 	{
 		try
 		{
-			$model = factory(TestSelfValidatesModel::class)->create();
+			$model = factory(SelfValidatesModel::class)->create();
 
 			$model->string = 123;
 
@@ -208,7 +208,7 @@ class SelfValidatesTest extends TestCase
 	{
 		try
 		{
-			$model = factory(TestSelfValidatesModel::class)->create();
+			$model = factory(SelfValidatesModel::class)->create();
 
 			$model->string = 123;
 

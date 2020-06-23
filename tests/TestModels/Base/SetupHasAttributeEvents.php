@@ -3,7 +3,7 @@
 namespace Tests\TestModels\Base;
 
 use Helium\LaravelHelpers\Helpers\StringHelper;
-use Tests\TestModels\TestHasAttributeEventsModel;
+use Tests\TestModels\HasAttributeEventsModel;
 
 trait SetupHasAttributeEvents
 {

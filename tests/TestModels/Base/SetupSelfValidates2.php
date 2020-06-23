@@ -13,7 +13,7 @@ trait SetupSelfValidates2
 			'string' => 'required|string',
 			'int' => 'required|integer',
 			'bool' => 'required|boolean',
-			'foreign_key' => 'required|exists:test_generates_primary_key_models,id'
+			'foreign_key' => 'required|exists:generates_primary_key_models,id'
 		];
 	}
 

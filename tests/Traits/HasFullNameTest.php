@@ -2,12 +2,12 @@
 
 namespace Tests\Traits;
 
-use Tests\TestModels\TestHasFullNameModel;
+use Tests\TestModels\HasFullNameModel;
 use Tests\TestCase;
 
 class HasFullNameTest extends TestCase
 {
-	protected const TEST_CLASS = TestHasFullNameModel::class;
+	protected const TEST_CLASS = HasFullNameModel::class;
 
 	protected const FIRST_NAME_DEFAULT = 'George';
 	protected const LAST_NAME_DEFAULT = 'Burdell';

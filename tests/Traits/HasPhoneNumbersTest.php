@@ -4,13 +4,13 @@ namespace Tests\Traits;
 
 use Helium\LaravelHelpers\Exceptions\EnumException;
 use Tests\TestEnums\Color;
-use Tests\TestModels\TestHasEnumsModel;
-use Tests\TestModels\TestHasPhoneNumbersModel;
+use Tests\TestModels\HasEnumsModel;
+use Tests\TestModels\HasPhoneNumbersModel;
 use Tests\TestCase;
 
 class HasPhoneNumbersTest extends TestCase
 {
-	protected const TEST_CLASS = TestHasPhoneNumbersModel::class;
+	protected const TEST_CLASS = HasPhoneNumbersModel::class;
 
 	protected function getInstance()
 	{
