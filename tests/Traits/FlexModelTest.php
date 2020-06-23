@@ -3,6 +3,7 @@
 namespace Tests\Traits;
 
 use Carbon\Carbon;
+use Illuminate\Database\QueryException;
 use Tests\TestModels\FlexModelModel;
 use Tests\TestCase;
 
@@ -16,6 +17,7 @@ class FlexModelTest extends TestCase
 	protected function getInstance()
 	{
 		return factory(self::TEST_CLASS)->create([
+            'required_string' => 'abc123',
 			'flex_attribute' => self::FLEX_ATTRIBUTE_INITIAL_VALUE,
 			'flex_array' => self::FLEX_ARRAY_INITIAL_VALUE
 		]);
@@ -40,7 +42,8 @@ class FlexModelTest extends TestCase
 		$this->assertEquals($model->getBaseColumns(), [
 			'id',
 			'created_at',
-			'updated_at'
+			'updated_at',
+            'required_string'
 		]);
 	}
 
@@ -69,7 +72,7 @@ class FlexModelTest extends TestCase
 
 		$filteredAttributes = $model->filterBaseAttributes($attributes);
 
-		$this->assertCount(3, $filteredAttributes);
+		$this->assertCount(4, $filteredAttributes);
 		$this->assertArrayHasKey('id', $filteredAttributes);
 		$this->assertEquals($filteredAttributes['id'], $attributes['id']);
 		$this->assertArrayHasKey('created_at', $filteredAttributes);
@@ -99,7 +102,7 @@ class FlexModelTest extends TestCase
 
 		$baseAttributes = $model->getBaseAttributes();
 
-		$this->assertCount(3, $baseAttributes);
+		$this->assertCount(4, $baseAttributes);
 		$this->assertArrayHasKey('id', $baseAttributes);
 		$this->assertEquals($baseAttributes['id'], $attributes['id']);
 		$this->assertArrayHasKey('created_at', $baseAttributes);
@@ -129,7 +132,7 @@ class FlexModelTest extends TestCase
 
 		$tableAttributes = $model->getTableAttributes();
 
-		$this->assertCount(4, $tableAttributes);
+		$this->assertCount(5, $tableAttributes);
 		$this->assertArrayHasKey('id', $tableAttributes);
 		$this->assertEquals($tableAttributes['id'], $attributes['id']);
 		$this->assertArrayHasKey('created_at', $tableAttributes);
@@ -147,185 +150,135 @@ class FlexModelTest extends TestCase
 		$this->assertEquals($flexAttributes['flex_array'], $attributes['flex_array']);
 	}
 
-	public function testNewFromBuilderArray()
+	public function testRetrieve()
+    {
+        $class = self::TEST_CLASS;
+
+        $attributes = [
+            'id' => 100,
+            'created_at' => Carbon::now()->toDateTimeString(),
+            'updated_at' => Carbon::now()->toDateTimeString(),
+            'required_string' => 'abc123',
+            'flex_attribute' => 'abc',
+            'flex_array' => ['a', 'b', 'c']
+        ];
+
+        $class::create($attributes);
+
+        $model = $class::find(100);
+
+        foreach($attributes as $key => $value)
+        {
+            $this->assertEquals($attributes[$key], $model->$key);
+        }
+    }
+
+	public function testCreate()
 	{
 		$class = self::TEST_CLASS;
-		$model = new $class;
-
-		$flexAttributes = [
-			'flex_attribute' => 'abc',
-			'flex_array' => ['a', 'b', 'c']
-		];
 
 		$attributes = [
 			'id' => 100,
 			'created_at' => Carbon::now()->toDateTimeString(),
 			'updated_at' => Carbon::now()->toDateTimeString(),
-			'data' => json_encode($flexAttributes)
+            'required_string' => 'abc123',
+            'flex_attribute' => 'abc',
+            'flex_array' => ['a', 'b', 'c']
 		];
 
-		$model = $model->newFromBuilder($attributes);
+		$model = $class::create($attributes);
 
-		$modelAttributes = $model->getAttributes();
-
-		$this->assertCount(5, $modelAttributes);
-		$this->assertArrayHasKey('id', $modelAttributes);
-		$this->assertEquals($modelAttributes['id'], $attributes['id']);
-		$this->assertArrayHasKey('created_at', $modelAttributes);
-		$this->assertEquals($modelAttributes['created_at'], $attributes['created_at']);
-		$this->assertArrayHasKey('updated_at', $modelAttributes);
-		$this->assertEquals($modelAttributes['updated_at'], $attributes['updated_at']);
-		$this->assertArrayHasKey('flex_attribute', $modelAttributes);
-		$this->assertEquals($modelAttributes['flex_attribute'], $flexAttributes['flex_attribute']);
-		$this->assertArrayHasKey('flex_array', $modelAttributes);
-		$this->assertEquals($modelAttributes['flex_array'], $flexAttributes['flex_array']);
+		foreach($attributes as $key => $value)
+        {
+            $this->assertEquals($attributes[$key], $model->$key);
+        }
 	}
 
-	public function testNewFromBuilderObject()
-	{
-		$class = self::TEST_CLASS;
-		$model = new $class;
+	public function testCreateFail()
+    {
+        $class = self::TEST_CLASS;
 
-		$flexAttributes = [
-			'flex_attribute' => 'abc',
-			'flex_array' => ['a', 'b', 'c']
-		];
+        $attributes = [
+            'id' => 100,
+            'created_at' => Carbon::now()->toDateTimeString(),
+            'updated_at' => Carbon::now()->toDateTimeString(),
+            'required_string' => null,
+            'flex_attribute' => 'abc',
+            'flex_array' => ['a', 'b', 'c']
+        ];
 
-		$attributes = [
-			'id' => 100,
-			'created_at' => Carbon::now()->toDateTimeString(),
-			'updated_at' => Carbon::now()->toDateTimeString(),
-			'data' => json_encode($flexAttributes)
-		];
+        $model = $class::make($attributes);
 
-		//Convert array of attributes to object
-		$model = $model->newFromBuilder((object) $attributes);
+        try {
+            $model->save();
 
-		$modelAttributes = $model->getAttributes();
+            $this->assertTrue(false);
+        } catch (QueryException $t) {
+            foreach($attributes as $key => $value)
+            {
+                $this->assertEquals($value, $model->$key);
+            }
+        }
+    }
 
-		$this->assertCount(5, $modelAttributes);
-		$this->assertArrayHasKey('id', $modelAttributes);
-		$this->assertEquals($modelAttributes['id'], $attributes['id']);
-		$this->assertArrayHasKey('created_at', $modelAttributes);
-		$this->assertEquals($modelAttributes['created_at'], $attributes['created_at']);
-		$this->assertArrayHasKey('updated_at', $modelAttributes);
-		$this->assertEquals($modelAttributes['updated_at'], $attributes['updated_at']);
-		$this->assertArrayHasKey('flex_attribute', $modelAttributes);
-		$this->assertEquals($modelAttributes['flex_attribute'], $flexAttributes['flex_attribute']);
-		$this->assertArrayHasKey('flex_array', $modelAttributes);
-		$this->assertEquals($modelAttributes['flex_array'], $flexAttributes['flex_array']);
-	}
+    public function testUpdate()
+    {
+        $class = self::TEST_CLASS;
 
-	public function testGetDirtyBaseAttribute()
-	{
-		$model = $this->getInstance();
+        $attributes = [
+            'id' => 100,
+            'created_at' => Carbon::now()->toDateTimeString(),
+            'updated_at' => Carbon::now()->toDateTimeString(),
+            'required_string' => 'abc123'
+        ];
 
-		$dirty = $model->getDirty();
-		$this->assertEmpty($dirty);
+        $model = $class::create($attributes);
 
-		$newCreatedAt = Carbon::tomorrow();
-		$model->created_at = $newCreatedAt;
+        $updateAttributes = [
+            'flex_attribute' => 'abc',
+            'flex_array' => ['a', 'b', 'c']
+        ];
 
-		$dirty = $model->getDirty();
-		$this->assertCount(1, $dirty);
-		$this->assertArrayHasKey('created_at', $dirty);
-		$this->assertEquals($dirty['created_at'], $newCreatedAt);
-	}
+        $model->update($updateAttributes);
 
-	public function testGetDirtyFlexAttribute()
-	{
-		$model = $this->getInstance();
+        $testAttributes = array_merge($attributes, $updateAttributes);
 
-		$dirty = $model->getDirty();
-		$this->assertEmpty($dirty);
+        foreach($testAttributes as $key => $value)
+        {
+            $this->assertEquals($value, $model->$key);
+        }
+    }
 
-		$newFlexAttribute = 'xyz';
-		$model->flex_attribute = $newFlexAttribute;
+    public function testUpdateFail()
+    {
+        $class = self::TEST_CLASS;
 
-		$dirty = $model->getDirty();
-		$this->assertCount(1, $dirty);
-		$this->assertArrayHasKey('data', $dirty);
-		$this->assertJson($dirty['data']);
-		$this->assertEquals($dirty['data'], json_encode($model->getFlexAttributes()));
-	}
+        $attributes = [
+            'id' => 100,
+            'created_at' => Carbon::now()->toDateTimeString(),
+            'updated_at' => Carbon::now()->toDateTimeString(),
+            'required_string' => 'abc123'
+        ];
 
-	public function testInsert()
-	{
-		$model = $this->getInstance();
+        $model = $class::create($attributes);
 
-		$this->assertEquals($model->flex_attribute, self::FLEX_ATTRIBUTE_INITIAL_VALUE);
-	}
+        $updateAttributes = [
+            'required_string' => null,
+            'flex_attribute' => 'abc',
+            'flex_array' => ['a', 'b', 'c']
+        ];
 
-	public function testUpdate()
-	{
-		$model = $this->getInstance();
+        try {
+            $model->update($updateAttributes);
 
-		$flexAttributeValue = 'dolor sit';
+            $this->assertTrue(false);
+        } catch (QueryException $t) {
+            $testAttributes = array_merge($attributes, $updateAttributes);
 
-		$model->update([
-			'flex_attribute' => $flexAttributeValue
-		]);
-
-		$this->assertEquals($model->flex_attribute, $flexAttributeValue);
-
-		$flexAttributeValue = 'amet consectetur';
-
-		$model->flex_attribute = $flexAttributeValue;
-		$model->save();
-
-		$this->assertEquals($model->flex_attribute, $flexAttributeValue);
-	}
-
-	public function testGet()
-	{
-		$model = $this->getInstance();
-
-		$id = $model->getKey();
-
-		$model = FlexModelModel::find($id);
-
-		$this->assertEquals($model->flex_attribute, self::FLEX_ATTRIBUTE_INITIAL_VALUE);
-	}
-
-	public function testInsertWithCasts()
-	{
-		$model = $this->getInstance();
-
-		$this->assertIsArray($model->flex_array);
-		$this->assertEquals($model->flex_array, self::FLEX_ARRAY_INITIAL_VALUE);
-	}
-
-	public function testUpdateWithCasts()
-	{
-		$model = $this->getInstance();
-
-		$flexArrayValue = ['d', 'e', 'f'];
-
-		$model->update([
-			'flex_array' => $flexArrayValue
-		]);
-
-		$this->assertIsArray($model->flex_array);
-		$this->assertEquals($model->flex_array, $flexArrayValue);
-
-		$flexArrayValue = ['g', 'h', 'i'];
-
-		$model->flex_array = $flexArrayValue;
-		$model->save();
-
-		$this->assertIsArray($model->flex_array);
-		$this->assertEquals($model->flex_array, $flexArrayValue);
-	}
-
-	public function testGetWithCasts()
-	{
-		$model = $this->getInstance();
-
-		$id = $model->getKey();
-
-		$model = FlexModelModel::find($id);
-
-		$this->assertIsArray($model->flex_array);
-		$this->assertEquals($model->flex_array, self::FLEX_ARRAY_INITIAL_VALUE);
-	}
+            foreach($testAttributes as $key => $value)
+            {
+                $this->assertEquals($value, $model->$key);
+            }
+        }
+    }
 }

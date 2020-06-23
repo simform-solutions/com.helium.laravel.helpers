@@ -16,6 +16,7 @@ class CreateFlexModelModelsTable extends Migration
         Schema::create('flex_model_models', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('required_string');
             $table->json('data');
         });
     }
