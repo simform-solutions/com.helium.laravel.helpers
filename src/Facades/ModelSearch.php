@@ -19,6 +19,8 @@ class ModelSearch
 	public static function search(Builder $query,
 		array $params): LengthAwarePaginator
 	{
+	    $query->with($params['relations'], []);
+
 		$orderBy = array_key_exists('order_by', $params) ? $params['order_by'] : [];
 		foreach ($orderBy as $column => $direction)
 		{

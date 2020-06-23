@@ -18,6 +18,11 @@ class CreateTestSearchModelsTable extends Migration
 	        $table->id('id');
 	        $table->timestamps();
 	        $table->integer('age');
+	        $table->unsignedBigInteger('parent_id')->nullable();
+
+	        $table->foreign('parent_id')
+                ->references('id')
+                ->on('test_search_models');
         });
     }
 

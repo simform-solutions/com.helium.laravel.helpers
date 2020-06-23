@@ -15,31 +15,38 @@ class ModelSearchTest extends TestCase
 		]);
 
 		factory(TestSearchModel::class, 5)->create([
-			'age' => 20
+			'age' => 20,
+            'parent_id' => TestSearchModel::first()->id
 		]);
 
 		factory(TestSearchModel::class, 5)->create([
-			'age' => 25
+			'age' => 25,
+            'parent_id' => TestSearchModel::first()->id
 		]);
 
 		factory(TestSearchModel::class, 5)->create([
-			'age' => 30
+			'age' => 30,
+            'parent_id' => TestSearchModel::first()->id
 		]);
 
 		factory(TestSearchModel::class, 5)->create([
-			'age' => 35
+			'age' => 35,
+            'parent_id' => TestSearchModel::first()->id
 		]);
 
 		factory(TestSearchModel::class, 5)->create([
-			'age' => 40
+			'age' => 40,
+            'parent_id' => TestSearchModel::first()->id
 		]);
 
 		factory(TestSearchModel::class, 5)->create([
-			'age' => 45
+			'age' => 45,
+            'parent_id' => TestSearchModel::first()->id
 		]);
 
 		factory(TestSearchModel::class, 5)->create([
-			'age' => 90
+			'age' => 90,
+            'parent_id' => TestSearchModel::first()->id
 		]);
 
 		$list = ModelSearch::search(TestSearchModel::query(), [
@@ -52,6 +59,9 @@ class ModelSearchTest extends TestCase
 			'order_by' => [
 				'age' => 'asc'
 			],
+			'relations' => [
+			    'parent'
+            ],
 			'per_page' => 10,
 			'page' => 2
 		])->toArray();
@@ -75,5 +85,18 @@ class ModelSearchTest extends TestCase
 		{
 			$this->assertLessThanOrEqual($list['data'][$i], $list['data'][$i - 1]);
 		}
+
+		//Test relations
+        foreach($list['data'] as $datum)
+        {
+            $this->assertArrayHasKey('parent', $datum);
+
+            if ($datum['age'] > 16) {
+                $this->assertNotNull($datum['parent']);
+                $this->assertIsArray($datum['parent']);
+            } else {
+                $this->assertNull($datum['parent']);
+            }
+        }
 	}
 }
