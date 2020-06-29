@@ -35,7 +35,8 @@
 	"extra": {
 		"laravel": {
 			"providers": [
-				"Helium\\LaravelHelpers\\Providers\\HeliumHelpersServiceProvider"
+				"Helium\\LaravelHelpers\\Providers\\HeliumHelpersServiceProvider",
+				"Helium\\LaravelHelpers\\Providers\\HeliumHelpersValidationServiceProvider"
 			]
 		}
 	}
