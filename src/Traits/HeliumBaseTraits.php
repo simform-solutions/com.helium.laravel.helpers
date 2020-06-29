@@ -10,6 +10,7 @@ trait HeliumBaseTraits
 {
     use BulkActions;
     use DefaultOrdering;
+    use FillableOnCreate;
     use HasAttributeEvents;
     use HasEnums;
 	use GeneratesPrimaryKey;
