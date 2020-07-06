@@ -11,8 +11,6 @@ use Helium\LaravelHelpers\Exceptions\ValidationException as HeliumValidationExce
 
 trait HasPhoneNumbers
 {
-	use HasAttributeEvents;
-
 	public function getPhoneNumbers(): array
 	{
 		return $this->phoneNumbers ?? [
@@ -26,6 +24,11 @@ trait HasPhoneNumbers
 	public static function bootHasPhoneNumbers()
 	{
 		$model = new static;
+
+		if (!method_exists(static::class, 'registerAttributeMutator'))
+        {
+            throw new \BadMethodCallException("The " . static::class . " class must use the trait " . HasAttributeEvents::class);
+        }
 
 		foreach ($model->getPhoneNumbers() as $attribute)
 		{

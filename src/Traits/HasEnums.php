@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 
 trait HasEnums
 {
-	use HasAttributeEvents;
-
 	//region Helpers
 	/**
 	 * @description Determines whether the specified attribute is an enum
@@ -62,6 +60,11 @@ trait HasEnums
 	 */
 	public static function bootHasEnums()
 	{
+        if (!method_exists(static::class, 'settingAttribute'))
+        {
+            throw new \BadMethodCallException("The " . static::class . " class must use the trait " . HasAttributeEvents::class);
+        }
+
 		self::settingAttribute(function(Model $model, $key, $value) {
 			$model->validateEnum($key, $value);
 		});
