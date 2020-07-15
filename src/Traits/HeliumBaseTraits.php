@@ -17,4 +17,5 @@ trait HeliumBaseTraits
     use SoftDeletes;
 	use SelfValidates;
 	use SoftCascadeTrait;
+	use ModelSearch;
 }

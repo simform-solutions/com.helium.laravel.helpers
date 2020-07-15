@@ -12,6 +12,7 @@ use Helium\LaravelHelpers\Traits\GeneratesPrimaryKey;
 use Helium\LaravelHelpers\Traits\HasAttributeEvents;
 use Helium\LaravelHelpers\Traits\HasEnums;
 use Helium\LaravelHelpers\Traits\HeliumBaseTraits;
+use Helium\LaravelHelpers\Traits\ModelSearch;
 use Helium\LaravelHelpers\Traits\SelfValidates;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
@@ -41,5 +42,6 @@ class HeliumBaseTraitsTest extends TestCase
 		$this->assertContains(DefaultOrdering::class, $uses);
 		$this->assertContains(BulkActions::class, $uses);
 		$this->assertContains(FillableOnCreate::class, $uses);
+		$this->assertContains(ModelSearch::class, $uses);
 	}
 }
