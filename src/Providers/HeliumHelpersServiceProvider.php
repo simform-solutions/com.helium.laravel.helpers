@@ -2,6 +2,8 @@
 
 namespace Helium\LaravelHelpers\Providers;
 
+use Helium\IdpClient\Middleware\IdpAuthenticate;
+use Helium\LaravelHelpers\Middleware\CastCamelToSnake;
 use Illuminate\Support\ServiceProvider;
 
 class HeliumHelpersServiceProvider extends ServiceProvider
@@ -21,4 +23,9 @@ class HeliumHelpersServiceProvider extends ServiceProvider
 			]);
 		}
 	}
+
+	public function register()
+    {
+        app('router')->aliasMiddleware('camelCase', CastCamelToSnake::class);
+    }
 }
