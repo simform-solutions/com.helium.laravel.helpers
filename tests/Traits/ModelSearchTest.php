@@ -81,11 +81,29 @@ class ModelSearchTest extends TestCase
 
         $array = $query->toArray();
         $this->assertStringContainsString('per_page=7', $array['first_page_url']);
-        $this->assertStringContainsString('per_page=7',$array['prev_page_url']);
+        $this->assertStringContainsString('per_page=7', $array['prev_page_url']);
         $this->assertStringContainsString('per_page=7', $array['next_page_url']);
         $this->assertStringContainsString('per_page=7', $array['last_page_url']);
         $this->assertEquals(7, $array['per_page']);
         $this->assertEquals(2, $array['current_page']);
+
+        $query = ModelSearchModel::search()->filter([
+            'data' => [
+                'like' => '%c%'
+            ]
+        ])
+            ->orderBy([
+                'data' => 'desc'
+            ])
+            ->allowRelations(['parent'])
+            ->load(['parent'])
+            ->paginate(2, 7, 'perPage');
+
+        $array = $query->toArray();
+        $this->assertStringContainsString('perPage=7', $array['first_page_url']);
+        $this->assertStringContainsString('perPage=7', $array['prev_page_url']);
+        $this->assertStringContainsString('perPage=7', $array['next_page_url']);
+        $this->assertStringContainsString('perPage=7', $array['last_page_url']);
     }
 
     public function testAllowRelations()
