@@ -1,7 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
-use Tests\TestModels\FillableOnCreateModel;
+use Tests\Models\FillableOnCreateModel;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(FillableOnCreateModel::class, function (Faker $faker) {

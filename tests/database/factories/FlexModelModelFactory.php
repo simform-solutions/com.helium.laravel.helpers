@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
-use Tests\TestModels\FlexModelModel;
+use Tests\Models\FlexModelModel;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(FlexModelModel::class, function (Faker $faker) {

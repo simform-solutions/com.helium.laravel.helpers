@@ -2,9 +2,9 @@
 
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
-use Tests\TestEnums\Color;
-use Tests\TestModels\GeneratesPrimaryKeyModel;
-use Tests\TestModels\HeliumBaseTraitsModel2;
+use Tests\Enums\Color;
+use Tests\Models\GeneratesPrimaryKeyModel;
+use Tests\Models\HeliumBaseTraitsModel2;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(HeliumBaseTraitsModel2::class, function (Faker $faker) {

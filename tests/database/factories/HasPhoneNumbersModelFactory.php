@@ -1,7 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
-use Tests\TestModels\HasPhoneNumbersModel;
+use Tests\Models\HasPhoneNumbersModel;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(HasPhoneNumbersModel::class, function (Faker $faker) {

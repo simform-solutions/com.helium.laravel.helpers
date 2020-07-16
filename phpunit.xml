@@ -19,7 +19,7 @@
 	</filter>
 	<testsuites>
 		<testsuite name="Helium Helpers Test Suite">
-			<directory suffix="Test.php">./tests/</directory>
+			<directory suffix="Test.php">./tests/Tests</directory>
 		</testsuite>
 	</testsuites>
 </phpunit>

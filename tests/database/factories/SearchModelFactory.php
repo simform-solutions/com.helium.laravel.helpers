@@ -1,7 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
-use Tests\TestModels\SearchModel;
+use Tests\Models\SearchModel;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(SearchModel::class, function (Faker $faker) {

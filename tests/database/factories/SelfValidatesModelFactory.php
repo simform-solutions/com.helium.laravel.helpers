@@ -2,8 +2,8 @@
 
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
-use Tests\TestModels\GeneratesPrimaryKeyModel;
-use Tests\TestModels\SelfValidatesModel;
+use Tests\Models\GeneratesPrimaryKeyModel;
+use Tests\Models\SelfValidatesModel;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(SelfValidatesModel::class, function (Faker $faker) {
