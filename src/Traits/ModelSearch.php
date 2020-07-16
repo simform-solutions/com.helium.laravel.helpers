@@ -2,7 +2,7 @@
 
 namespace Helium\LaravelHelpers\Traits;
 
-use Helium\LaravelHelpers\Classes\SearchQuery;
+use Helium\LaravelHelpers\Search\SearchQuery;
 
 trait ModelSearch
 {

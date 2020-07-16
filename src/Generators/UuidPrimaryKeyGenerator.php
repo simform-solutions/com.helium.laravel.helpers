@@ -1,6 +1,6 @@
 <?php
 
-namespace Helium\LaravelHelpers\Classes;
+namespace Helium\LaravelHelpers\Generators;
 
 use Helium\LaravelHelpers\Contracts\PrimaryKeyGenerator;
 use Helium\LaravelHelpers\Helpers\StringHelper;

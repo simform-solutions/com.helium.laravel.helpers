@@ -2,7 +2,7 @@
 
 namespace Tests\Traits;
 
-use Helium\LaravelHelpers\Classes\SearchQuery;
+use Helium\LaravelHelpers\Search\SearchQuery;
 use Tests\TestCase;
 use Tests\TestModels\ModelSearchModel;
 

@@ -2,7 +2,7 @@
 
 namespace Tests\Traits;
 
-use Helium\LaravelHelpers\Classes\UuidPrimaryKeyGenerator;
+use Helium\LaravelHelpers\Generators\UuidPrimaryKeyGenerator;
 use Helium\LaravelHelpers\Contracts\PrimaryKeyGenerator;
 use Tests\TestModels\GeneratesPrimaryKeyModel;
 use Tests\TestCase;

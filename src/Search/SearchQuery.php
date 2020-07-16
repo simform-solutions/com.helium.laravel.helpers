@@ -1,6 +1,6 @@
 <?php
 
-namespace Helium\LaravelHelpers\Classes;
+namespace Helium\LaravelHelpers\Search;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;

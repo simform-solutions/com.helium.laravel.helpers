@@ -2,7 +2,7 @@
 
 namespace Helium\LaravelHelpers\Traits;
 
-use Helium\LaravelHelpers\Classes\UuidPrimaryKeyGenerator;
+use Helium\LaravelHelpers\Generators\UuidPrimaryKeyGenerator;
 use Helium\LaravelHelpers\Contracts\PrimaryKeyGenerator;
 use Illuminate\Database\Eloquent\Model;
 
