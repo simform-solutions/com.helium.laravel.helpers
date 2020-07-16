@@ -59,5 +59,24 @@ class CastCamelToSnakeTest extends TestCase
             $this->assertEquals('abc', $req->someAttribute);
             $this->assertEquals('123', $req->some_attribute);
         });
+
+        /**
+         * Test recursion
+         */
+        $middleware = new CastCamelToSnake;
+        $request = new Request;
+
+        $request->merge([
+            'someObject' => [
+                'someAttribute' => 'abc'
+            ]
+        ]);
+
+        $middleware->handle($request, function($req) {
+            $this->assertArrayHasKey('some_object', $req->all());
+            $this->assertIsArray($req->some_object);
+            $this->assertArrayHasKey('some_attribute', $req->some_object);
+            $this->assertEquals('abc', $req->some_object['some_attribute']);
+        });
     }
 }
