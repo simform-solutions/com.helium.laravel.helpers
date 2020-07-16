@@ -81,7 +81,8 @@ class SearchQuery
         return $this;
     }
 
-    public function paginate(?int $page = null, ?int $perPage = null): LengthAwarePaginator
+    public function paginate(?int $page = null, ?int $perPage = null,
+         string $perPageName = 'per_page'): LengthAwarePaginator
     {
         foreach ($this->filters as $column => $columnFilters)
         {
@@ -113,7 +114,7 @@ class SearchQuery
 
         if ($perPage)
         {
-            $list->appends('per_page', $perPage);
+            $list->appends($perPageName, $perPage);
         }
 
         return $list;
