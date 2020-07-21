@@ -39,7 +39,10 @@ trait ModelSearch
 
         if(is_array($relations))
         {
-            return parent::load(array_intersect($this->allowedRelations, $relations));
+            $allowedRelations = is_null($this->allowedRelations) ?
+                $relations :
+                array_intersect($this->allowedRelations, $relations);
+            return parent::load($allowedRelations);
         }
 
         return $this;
