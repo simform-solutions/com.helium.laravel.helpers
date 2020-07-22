@@ -3,15 +3,16 @@
 namespace Helium\LaravelHelpers\Traits;
 
 use Helium\LaravelHelpers\Search\SearchQuery;
+use Illuminate\Database\Eloquent\Builder;
 
 trait ModelSearch
 {
     /** @var array $allowedRelations */
     protected $allowedRelations = null;
 
-    public static function search(?array $filters = null): SearchQuery
+    public static function search(?Builder $query = null): SearchQuery
     {
-        return (new SearchQuery(static::query()));
+        return (new SearchQuery($query ?? static::query()));
     }
 
     public function allowRelations(?array $allowedRelations = null)
