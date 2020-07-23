@@ -16,7 +16,7 @@ trait HasEnums
 	 */
 	public function isEnum($key): bool
 	{
-		return array_key_exists($key, $this->enums());
+		return array_key_exists($key, $this->getEnums());
 	}
 
 	/**
@@ -30,15 +30,15 @@ trait HasEnums
 	{
 		if ($this->isEnum($key))
 		{
-			if (is_string($this->enums()[$key]) &&
-				is_subclass_of($this->enums()[$key], Enum::class))
+			if (is_string($this->getEnums()[$key]) &&
+				is_subclass_of($this->getEnums()[$key], Enum::class))
 			{
-				$enum = $this->enums()[$key];
+				$enum = $this->getEnums()[$key];
 				$array = $enum::all();
 			}
-			elseif (is_array($this->enums()[$key]))
+			elseif (is_array($this->getEnums()[$key]))
 			{
-				$array = $this->enums()[$key];
+				$array = $this->getEnums()[$key];
 			}
 
 			if (!in_array($value, $array))
@@ -50,7 +50,7 @@ trait HasEnums
 	//endregion
 
 	//region Functions
-	protected function enums(): array
+	public function getEnums(): array
 	{
 		return property_exists($this, 'enums') ? $this->enums : [];
 	}

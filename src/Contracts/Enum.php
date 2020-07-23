@@ -10,7 +10,6 @@ abstract class Enum
 	 * @description Get all enum values
 	 * @param bool $acceptNull Include null as an enum value
 	 * @return array
-	 * @throws \ReflectionException
 	 */
 	public static function all(bool $acceptNull = false): array
 	{
