@@ -10,4 +10,9 @@ class HeliumPassportClient extends Client
     use GeneratesPrimaryKey;
 
     public $primaryKeyPrefix = 'PP-CLI';
+
+    public function skipsAuthorization()
+    {
+        return $this->firstParty();
+    }
 }
