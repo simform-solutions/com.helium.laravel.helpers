@@ -13,7 +13,7 @@
         "illuminate/database": "^5.0||^6.0||^7.0",
 		"illuminate/support": "^5.8||^6.0||^7.0",
 		"illuminate/validation": "^5.8||^6.0||^7.0",
-		"ramsey/uuid": "^4.0",
+		"ramsey/uuid": "^3.8|^4.0",
         "czim/laravel-nestedupdater": "^2.0",
         "askedio/laravel-soft-cascade": "^5.0||^6.0|^7.0",
         "haydenpierce/class-finder": "^0.4.2",
