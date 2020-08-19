@@ -12,7 +12,7 @@ class TestSetupHelper
     public static function migrateDatabaseOnce(): void
     {
         if (!self::$isSetUp) {
-            $env = Dotenv::createMutable(__DIR__, '/../.env.testing');
+            $env = Dotenv::createMutable(base_path(), '.env.testing');
             $env->load();
 
             println('Migrating database...');
