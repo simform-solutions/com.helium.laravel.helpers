@@ -32,7 +32,7 @@ trait ValidationAssertions
         try {
             /** @var Builder $class */
             $model = factory($class)->make($attributes);
-            $model->validate();
+            $model->save();
             self::assertEquals($expectedErrors, 0);
         } catch (ValidationException $e) {
             $allErrors = [];
@@ -72,7 +72,7 @@ trait ValidationAssertions
     public function assertAttributeRequired(string $class, string $attribute): void
     {
         $attributes = factory($class)->raw();
-        unset($attributes[$attribute]);
+        $attributes[$attribute] = null;
 
         $this->assertHasValidationErrors($class, $attributes, 1);
     }

@@ -2,6 +2,7 @@
 
 namespace Helium\LaravelHelpers\Helpers\Tests;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
 
@@ -18,10 +19,16 @@ trait RelationshipAssertions
      * @param string $foreign_key The foreign key field on the class being tested
      * @param string $relationship The name of the relationship
      * @param string $otherClass The class of the related object
+     * @param string $local_key The primary key of $model
+     * @return Model
      */
-    public function assertBasicBelongsToRelationship(string $class,
-		string $foreign_key, string $relationship, string $otherClass,
-		string $local_key = 'id')
+    public function assertBasicBelongsToRelationship(
+        string $class,
+		string $foreign_key,
+        string $relationship,
+        string $otherClass,
+		string $local_key = 'id'
+    )
     {
         $related = factory($otherClass)->create();
         $model = factory($class)->create([
@@ -31,6 +38,8 @@ trait RelationshipAssertions
         $this->assertNotNull($model->$foreign_key);
         $this->assertNotNull($model->$relationship);
         $this->assertInstanceOf($otherClass, $model->$relationship);
+
+        return $model;
     }
 
     /**
@@ -41,9 +50,14 @@ trait RelationshipAssertions
      * @param string $relationship The name of the relationship
      * @param string $otherClass The class of the related objects
      * @param string $foreign_key The foreign key field on the related object
+     * @return Model
      */
-    public function assertBasicHasManyRelationship(string $class,
-		string $relationship, string $otherClass, string $foreign_key)
+    public function assertBasicHasManyRelationship(
+        string $class,
+		string $relationship,
+        string $otherClass,
+        string $foreign_key
+    )
     {
         $model = factory($class)->create();
 
@@ -67,21 +81,29 @@ trait RelationshipAssertions
             $related2->getKeyName(),
             $related2->getKey()
         ));
+
+        return $model;
     }
 
-	/**
-	 * @description Test that the specified relationship functions as a basic
-	 * belongsToMany relationship. Composite keys are NOT currently supported.
-	 * @param string $class The class being tested
-	 * @param string $relationship The name of the relationship
-	 * @param string $relatedClass The class of the related objects
+    /**
+     * @description Test that the specified relationship functions as a basic
+     * belongsToMany relationship. Composite keys are NOT currently supported.
+     * @param string $class The class being tested
+     * @param string $relationship The name of the relationship
+     * @param string $relatedClass The class of the related objects
      * @param string $throughClass The class of the joining class
      * @param string $classForeignKey The foreign key column name on $throughClass to $class
-     * @param string $relatedClassForeginKey The foreign key column name on $throughClass to $relatedClass
-	 */
-    public function assertBasicBelongsToManyRelationship(string $class,
-		string $relationship, string $relatedClass, string $throughClass,
-		string $classForeignKey, string $relatedClassForeginKey)
+     * @param string $relatedClassForeignKey The foreign key column name on $throughClass to $relatedClass
+     * @return Model
+     */
+    public function assertBasicBelongsToManyRelationship(
+        string $class,
+		string $relationship,
+        string $relatedClass,
+        string $throughClass,
+		string $classForeignKey,
+        string $relatedClassForeignKey
+    )
     {
     	$model = factory($class)->create();
 
@@ -89,12 +111,51 @@ trait RelationshipAssertions
 
     	$through = factory($throughClass)->create([
 			$classForeignKey => $model->getKey(),
-		    $relatedClassForeginKey => $related->getKey()
+		    $relatedClassForeignKey => $related->getKey()
 	    ]);
 
     	$this->assertTrue($model->$relationship->contains(
     		$related->getKeyName(),
 		    $related->getKey()
 	    ));
+
+    	return $model;
+    }
+    /**
+     * @description Test that the specified relationship functions as a basic
+     * hasManyThrough relationship. Composite keys are NOT currently supported.
+     * @param string $class The class being tested
+     * @param string $relationship The name of the relationship
+     * @param string $relatedClass The class of the related objects
+     * @param string $throughClass The class of the joining class
+     * @param string $classForeignKey The foreign key column name on $throughClass to $class
+     * @param string $throughClassForeignKey The foreign key column name on $throughClass to $relatedClass
+     * @return Model
+     */
+    public function assertBasicHasManyThroughRelationship(
+        string $class,
+        string $relationship,
+        string $relatedClass,
+        string $throughClass,
+        string $classForeignKey,
+        string $throughClassForeignKey
+    )
+    {
+        $model = factory($class)->create();
+
+        $through = factory($throughClass)->create([
+            $classForeignKey => $model->id
+        ]);
+
+        $related = factory($relatedClass)->create([
+            $throughClassForeignKey => $through->id
+        ]);
+
+        $this->assertTrue($model->$relationship->contains(
+            $related->getKeyName(),
+            $related->getKey()
+        ));
+
+        return $model;
     }
 }

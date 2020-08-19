@@ -236,4 +236,14 @@ class SelfValidatesTest extends TestCase
 		$this->assertTrue(false);
 	}
 	//endregion
+
+    //region Hidden
+    public function testAllAttributesToArray()
+    {
+        $model = $this->getInstance();
+        $attributes = $model->allAttributesToArray();
+
+        $this->assertArrayHasKey('foreign_key', $attributes);
+    }
+    //endregion
 }

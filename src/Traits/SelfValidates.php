@@ -50,42 +50,6 @@ trait SelfValidates
 			return $this->validatesOnSave ?? true;
 		}
 	}
-
-	/**
-	 * @description Load all model relationships required for validation
-	 */
-	protected function loadRelationsForValidation(): void
-	{
-		$rules = $this->getValidationRules();
-
-		//Store a list of relations that are already loaded for use later
-		//See unloadUncachedRelations()
-		$this->_preLoadedRelations = array_keys($this->getRelations());
-
-		//Call getRelationValue() for all keys
-		//Non-relationship keys simply return null, and thus have no side effects
-		foreach ($rules as $key => $value) {
-			$this->getRelationValue($key);
-		}
-	}
-
-	/**
-	 * @description Unload all model relationships that were not loaded prior to validation
-	 */
-	protected function unloadUncachedRelations(): void
-	{
-		//Get a list of all relations that were not already loaded
-		//using the list of relations that WERE already loaded
-		//See loadRelationsForValidation()
-		$unloadRelations = array_filter($this->getRelations(), function($key) {
-			return !in_array($key, $this->_preLoadedRelations);
-		}, ARRAY_FILTER_USE_KEY);
-
-		//Unload all relations that were not already loaded
-		foreach ($unloadRelations as $key => $value) {
-			$this->unsetRelation($key);
-		}
-	}
 	//endregion
 
 	//region Functions
@@ -95,12 +59,38 @@ trait SelfValidates
 	public static function bootSelfValidates()
 	{
 		self::saving(function (Model $model) {
+		    /** @var SelfValidates $model */
 			if ($model->getValidatesOnSave())
 			{
 				$model->validate();
 			}
 		});
 	}
+
+    /**
+     * Copied and modified from attributesToArray to include all attributes
+     * @return array
+     */
+	public function allAttributesToArray(): array
+    {
+        $attributes = $this->addDateAttributesToArray(
+            $attributes = $this->getAttributes()
+        );
+
+        $attributes = $this->addMutatedAttributesToArray(
+            $attributes, $mutatedAttributes = $this->getMutatedAttributes()
+        );
+
+        $attributes = $this->addCastAttributesToArray(
+            $attributes, $mutatedAttributes
+        );
+
+        foreach ($this->appends ?? [] as $key) {
+            $attributes[$key] = $this->mutateAttributeForArray($key, null);
+        }
+
+        return $attributes;
+    }
 
 	/**
 	 * @description Perform attribute and relationship validation on the model
@@ -112,27 +102,18 @@ trait SelfValidates
 		$rules = $this->getValidationRules();
 		$messages = $this->getValidationMessages();
 
-		//Load all necessary relationships for validation
-		$this->loadRelationsForValidation();
-
-		$v = Validator::make($this->toArray(), $rules, $messages);
+		$v = Validator::make($this->allAttributesToArray(), $rules, $messages);
 
 		try {
 			//Execute validation, which may throw a
 			//Illuminate\Validation\ValidationException
-			$validated = $v->validate();
-
-			//To prevent side effects, unload all relations which were not
-			//previously loaded before validation
-			$this->unloadUncachedRelations();
-
-			return $validated;
+			return $v->validate();
 		} catch (IlluminateValidationException $e) {
 			//If validation fails, re-wrap the exception as a custom
 			//Helium\LaravelHelpers\Exceptions\ValidationException,
 			//which is more readable than the native
 			//Illuminate\Validation\ValidationException
-			throw new HeliumValidationException($e, $this->toArray());
+			throw new HeliumValidationException($e, $this->allAttributesToArray());
 		}
 	}
 	//endregion

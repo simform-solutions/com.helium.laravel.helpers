@@ -10,4 +10,8 @@ class SelfValidatesModel extends TestModel
 {
 	use SelfValidates;
 	use SetupSelfValidates;
+
+    public $hidden = [
+        'foreign_key'
+    ];
 }
