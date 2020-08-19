@@ -24,14 +24,15 @@ trait ValidationAssertions
      * @return ValidationException|null The exception object, in case the
      * developer wants to run additional assertions on the contents of the exception
      */
-    public function assertCreateHasValidationErrors(
+    public function assertHasValidationErrors(
         string $class,
         array $attributes,
         int $expectedErrors): ?ValidationException
     {
         try {
             /** @var Builder $class */
-            $model = $class::create($attributes);
+            $model = factory($class)->make($attributes);
+            $model->validate();
             self::assertEquals($expectedErrors, 0);
         } catch (ValidationException $e) {
             $allErrors = [];
@@ -60,7 +61,7 @@ trait ValidationAssertions
         $attributes = factory($class)->raw();
         unset($attributes[$attribute]);
 
-        $this->assertCreateHasValidationErrors($class, $attributes, 0);
+        $this->assertHasValidationErrors($class, $attributes, 0);
     }
 
     /**
@@ -73,7 +74,7 @@ trait ValidationAssertions
         $attributes = factory($class)->raw();
         unset($attributes[$attribute]);
 
-        $this->assertCreateHasValidationErrors($class, $attributes, 1);
+        $this->assertHasValidationErrors($class, $attributes, 1);
     }
 
     /**
@@ -91,7 +92,7 @@ trait ValidationAssertions
         //All others present
         unset($attributes[$attribute]);
 
-        $this->assertCreateHasValidationErrors($class, $attributes, 1);
+        $this->assertHasValidationErrors($class, $attributes, 1);
 
         if (count($others) > 1)
         {
@@ -99,7 +100,7 @@ trait ValidationAssertions
 	        $firstOther = $others[0];
 	        unset($attributes[$firstOther]);
 
-	        $this->assertCreateHasValidationErrors($class, $attributes, 2);
+	        $this->assertHasValidationErrors($class, $attributes, 2);
         }
 
         //All others not present
@@ -108,7 +109,7 @@ trait ValidationAssertions
             unset($attributes[$other]);
         }
 
-        $this->assertCreateHasValidationErrors($class, $attributes, 0);
+        $this->assertHasValidationErrors($class, $attributes, 0);
     }
 
     /**
@@ -131,7 +132,7 @@ trait ValidationAssertions
             $attribute => $key
         ]);
 
-        $this->assertCreateHasValidationErrors($class, $attributes, 1);
+        $this->assertHasValidationErrors($class, $attributes, 1);
     }
 
     /**
@@ -153,7 +154,7 @@ trait ValidationAssertions
             $attribute => $instance->$attribute
         ]);
 
-        $this->assertCreateHasValidationErrors($class, $attributes, 1);
+        $this->assertHasValidationErrors($class, $attributes, 1);
     }
 
     /**
@@ -167,7 +168,7 @@ trait ValidationAssertions
             $attribute => 'abc'
         ]);
 
-        $this->assertCreateHasValidationErrors($class, $attributes, 1);
+        $this->assertHasValidationErrors($class, $attributes, 1);
     }
 
     /**
@@ -181,7 +182,7 @@ trait ValidationAssertions
             $attribute => 123
          ]);
 
-        $this->assertCreateHasValidationErrors($class, $attributes, 1);
+        $this->assertHasValidationErrors($class, $attributes, 1);
     }
 
     public function assertAttributeStringFormat(string $class,
@@ -191,13 +192,14 @@ trait ValidationAssertions
             $attribute => 123
         ]);
 
-        $this->assertCreateHasValidationErrors($class, $attributes, 2);
+        $this->assertHasValidationErrors($class, $attributes, 2);
     }
 
     /**
      * @description Test that the specified attribute is validated as an enum value
      * @param string $class The class being tested
      * @param string $attribute The attribute being tested
+     * @throws Exception
      */
     public function assertAttributeEnum(string $class, string $attribute): void
     {
@@ -215,6 +217,8 @@ trait ValidationAssertions
             {
                 throw $e;
             }
+
+            $this->assertTrue(true);
         }
     }
 
@@ -230,11 +234,11 @@ trait ValidationAssertions
 
         //test string
         $attributes[$attribute] = 1;
-        $this->assertCreateHasValidationErrors($class, $attributes, 1);
+        $this->assertHasValidationErrors($class, $attributes, 1);
 
         //test email format
         $attributes[$attribute] = 'abc';
-        $this->assertCreateHasValidationErrors($class, $attributes, 1);
+        $this->assertHasValidationErrors($class, $attributes, 1);
     }
 
     /**
@@ -248,7 +252,7 @@ trait ValidationAssertions
             $attribute => 'abc123'
         ]);
 
-        $this->assertCreateHasValidationErrors($class, $attributes, 1);
+        $this->assertHasValidationErrors($class, $attributes, 1);
     }
 
     /**
@@ -262,13 +266,14 @@ trait ValidationAssertions
             $attribute => 3.14
         ]);
 
-        $this->assertCreateHasValidationErrors($class, $attributes, 1);
+        $this->assertHasValidationErrors($class, $attributes, 1);
     }
 
     /**
      * @description Test that the specified attribute is validated as date
      * @param string $class The class being tested
      * @param string $attribute The attribute being tested
+     * @throws Exception
      */
     public function assertAttributeDate(string $class, string $attribute): void
     {
@@ -278,10 +283,14 @@ trait ValidationAssertions
 
         try {
             //Test validation only (ie model does not cast dates)
-            $this->assertCreateHasValidationErrors($class, $attributes, 1);
+            $this->assertHasValidationErrors($class, $attributes, 1);
         } catch (Exception $exception) {
-            //Test model casts dates
-            $this->assertInstanceOf(InvalidFormatException::class, $exception);
+            if (!($exception instanceof InvalidFormatException))
+            {
+                throw $exception;
+            }
+
+            $this->assertTrue(true);
         }
     }
 
@@ -300,15 +309,15 @@ trait ValidationAssertions
 
         $attributes[$otherAttribute] = Carbon::today();
         $attributes[$attribute] = Carbon::yesterday();
-        $this->assertCreateHasValidationErrors($class, $attributes, 1);
+        $this->assertHasValidationErrors($class, $attributes, 1);
 
         $attributes[$otherAttribute] = Carbon::today();
         $attributes[$attribute] = Carbon::today();
-        $this->assertCreateHasValidationErrors($class, $attributes, 1);
+        $this->assertHasValidationErrors($class, $attributes, 1);
 
         $attributes[$otherAttribute] = Carbon::yesterday();
         $attributes[$attribute] = Carbon::today();
-        $this->assertCreateHasValidationErrors($class, $attributes, 0);
+        $this->assertHasValidationErrors($class, $attributes, 0);
     }
 
     /**
@@ -326,22 +335,22 @@ trait ValidationAssertions
 
         $attributes[$otherAttribute] = Carbon::today();
         $attributes[$attribute] = Carbon::yesterday();
-        $this->assertCreateHasValidationErrors($class, $attributes, 1);
+        $this->assertHasValidationErrors($class, $attributes, 1);
 
         $attributes[$otherAttribute] = Carbon::today();
         $attributes[$attribute] = Carbon::today();
-        $this->assertCreateHasValidationErrors($class, $attributes, 0);
+        $this->assertHasValidationErrors($class, $attributes, 0);
 
         $attributes[$otherAttribute] = Carbon::yesterday();
         $attributes[$attribute] = Carbon::today();
-        $this->assertCreateHasValidationErrors($class, $attributes, 0);
+        $this->assertHasValidationErrors($class, $attributes, 0);
     }
 
 	/**
 	 * @description Test that the specified attribute is validated as min
 	 * @param string $class The class being tested
 	 * @param string $attribute The attribute being tested
-     * @param int $min The min size of the field
+     * @param int $size The min size of the field
 	 */
 	public function assertAttributeMin(string $class,
         string $attribute,
@@ -361,7 +370,7 @@ trait ValidationAssertions
 			$attributes[$attribute] = $size - 1;
 		}
 
-		$this->assertCreateHasValidationErrors($class, $attributes, 1);
+		$this->assertHasValidationErrors($class, $attributes, 1);
 	}
 
 	/**
@@ -388,7 +397,7 @@ trait ValidationAssertions
 			$attributes[$attribute] = $size + 1;
 		}
 
-		$this->assertCreateHasValidationErrors($class, $attributes, 1);
+		$this->assertHasValidationErrors($class, $attributes, 1);
 	}
 
 	/**
@@ -402,6 +411,6 @@ trait ValidationAssertions
 
 	    $attributes[$attribute] = 'abc';
 
-	    $this->assertCreateHasValidationErrors($class, $attributes, 1);
+	    $this->assertHasValidationErrors($class, $attributes, 1);
     }
 }
