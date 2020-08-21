@@ -2,9 +2,8 @@
 
 namespace Helium\LaravelHelpers\Handlers;
 
-use Helium\LaravelHelpers\Exceptions\InternalServerException;
 use Helium\LaravelHelpers\Exceptions\ApiException;
-use Helium\LaravelHelpers\Exceptions\ValidationException;
+use Helium\LaravelHelpers\Exceptions\InternalServerException;
 use Helium\LaravelHelpers\Resources\ApiErrorResource;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
@@ -12,13 +11,17 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Http\Response;
 use Illuminate\Validation\UnauthorizedException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
 class ApiExceptionHandler extends Handler
 {
 	public function render($request, Throwable $e)
 	{
-		if ($e instanceof AuthenticationException ||
+	    if ($e instanceof HttpException) {
+	        $statusCode = $e->getStatusCode();
+        }
+		elseif ($e instanceof AuthenticationException ||
 			$e instanceof AuthorizationException ||
 			$e instanceof UnauthorizedException)
 		{
