@@ -4,22 +4,69 @@ namespace Helium\LaravelHelpers\Helpers\Tests;
 
 use Dotenv\Dotenv;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class TestSetupHelper
 {
-    protected static $isSetUp = false;
+    protected static $isSetUp;
 
-    public static function migrateDatabaseOnce(): void
+    public static function setup(): void
+    {
+        static::loadEnv();
+
+        static::once(function () {
+            static::migrateDatabase();
+        });
+
+        static::truncateDatabase();
+
+        static::seedDatabase();
+    }
+
+    public static function once(callable $callback): void
     {
         if (!self::$isSetUp) {
-            $env = Dotenv::createMutable(base_path(), '.env.testing');
-            $env->load();
-
-            println('Migrating database...');
-            Artisan::call('migrate:fresh');
-            println('Finished migrating.');
-
             self::$isSetUp = true;
+
+            $callback();
         }
+    }
+
+    public static function loadEnv(string $name = 'testing'): void
+    {
+        $suffix = empty($name) ? '' : ".$name";
+        $envFile = '.env' . $suffix;
+
+        $env = Dotenv::createMutable(base_path(), $envFile);
+        $env->load();
+    }
+
+    public static function migrateDatabase(): void
+    {
+        println('Migrating database...');
+        Artisan::call('migrate:fresh');
+        println('Finished migrating.');
+    }
+
+    public static function seedDatabase(string $class = 'TestSeeder'): void
+    {
+        Artisan::call('db:seed', [
+            '--class' => 'TestSeeder'
+        ]);
+    }
+
+    protected static function truncateDatabase(): void
+    {
+        Schema::disableForeignKeyConstraints();
+
+        $tableNames = Schema::getConnection()->getDoctrineSchemaManager()->listTableNames();
+        foreach ($tableNames as $name) {
+            if ($name != 'migrations') {
+                DB::table($name)->truncate();
+            }
+        }
+
+        Schema::enableForeignKeyConstraints();
     }
 }
