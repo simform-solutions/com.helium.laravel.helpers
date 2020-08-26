@@ -17,6 +17,7 @@ class TestSetupHelper
 
         static::once(function () {
             static::migrateDatabase();
+            Mailhog::client()->purgeMessages();
         });
 
         static::truncateDatabase();
@@ -68,5 +69,10 @@ class TestSetupHelper
         }
 
         Schema::enableForeignKeyConstraints();
+    }
+
+    protected static function clearMailhog(): void
+    {
+
     }
 }
