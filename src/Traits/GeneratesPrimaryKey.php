@@ -42,21 +42,27 @@ trait GeneratesPrimaryKey
 	//endregion
 
 	//region Functions
+    public function attemptGeneratePrimaryKey()
+    {
+        if (!$this->getKey())
+        {
+            $primaryKey = $this->getKeyName();
+
+            $this->setAttribute(
+                $primaryKey,
+                $this->getPrimaryKeyGenerator()->generate()
+            );
+        }
+    }
+
 	/**
 	 * @description Generate a unique primary key on creation
 	 */
 	public static function bootGeneratesPrimaryKey()
 	{
 		self::creating(function (Model $model) {
-			if (!$model->getKey())
-			{
-				$primaryKey = $model->getKeyName();
-
-				$model->setAttribute(
-					$primaryKey,
-					$model->getPrimaryKeyGenerator()->generate()
-				);
-			}
+            /** @var GeneratesPrimaryKey $model */
+		    $model->attemptGeneratePrimaryKey();
 		});
 	}
 	//endregion
