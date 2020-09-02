@@ -71,8 +71,16 @@ class TestSetupHelper
         Schema::enableForeignKeyConstraints();
     }
 
-    protected static function clearMailhog(): void
+    public static function deleteStripeCustomers(string $class, string $stripeIdColumn = 'stripe_id'): void
     {
+        $customers = $class::where($stripeIdColumn, 'like', 'cus_%')->get();
 
+        foreach ($customers as $customer) {
+            try {
+                $customer->asStripeCustomer()->delete();
+            } catch (\Exception $e) {
+                continue;
+            }
+        }
     }
 }
