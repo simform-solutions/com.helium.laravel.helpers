@@ -7,6 +7,7 @@ use Illuminate\Validation\ValidationException as IlluminateValidationException;
 
 class ValidationException extends ApiException
 {
+    protected $attributes = [];
 	protected $errors = [];
 
 	public function __construct(IlluminateValidationException $previous, array $attributes)
@@ -34,8 +35,12 @@ class ValidationException extends ApiException
 			$errorMessages = [];
 
 			foreach ($this->errors as $key => $errors) {
-				$errorMessages[$key] = array_map(function ($error) use ($key) {
-					$value = $this->attributes[$key] ?? 'null';
+                $value = $this->attributes[$key] ?? 'null';
+                if (is_array($value)) {
+                    $value = '(array)';
+                }
+
+				$errorMessages[$key] = array_map(function ($error) use ($key, $value) {
 					return "{$error} (got value: {$value})";
 				}, $errors);
 			}
