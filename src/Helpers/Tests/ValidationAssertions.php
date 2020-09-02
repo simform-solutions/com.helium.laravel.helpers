@@ -413,4 +413,13 @@ trait ValidationAssertions
 
 	    $this->assertHasValidationErrors($class, $attributes, 1);
     }
+
+    public function assertAttributeJson(string $class, string $attribute): void
+    {
+        $attributes = factory($class)->raw();
+
+        $attributes[$attribute] = 'not json';
+
+        $this->assertHasValidationErrors($class, $attributes, 1);
+    }
 }
