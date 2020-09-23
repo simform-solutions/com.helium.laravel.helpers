@@ -11,13 +11,19 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Http\Response;
 use Illuminate\Validation\UnauthorizedException;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Helium\LaravelHelpers\Exceptions\ValidationException as HeliumValidationException;
 use Throwable;
 
 class ApiExceptionHandler extends Handler
 {
 	public function render($request, Throwable $e)
 	{
+	    if ($e instanceof ValidationException) {
+	        $e = new HeliumValidationException($e);
+        }
+
 	    if ($e instanceof HttpException) {
 	        $statusCode = $e->getStatusCode();
         }

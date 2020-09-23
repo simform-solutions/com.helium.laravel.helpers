@@ -5,15 +5,16 @@ namespace Tests\Tests\Handlers;
 use Exception;
 use Helium\LaravelHelpers\Exceptions\InternalServerException;
 use Helium\LaravelHelpers\Exceptions\ApiException;
-use Helium\LaravelHelpers\Exceptions\ValidationException;
+use Helium\LaravelHelpers\Exceptions\ValidationException as HeliumValidationException;
 use Helium\LaravelHelpers\Handlers\ApiExceptionHandler;
-use Helium\LaravelHelpers\Resources\ApiErrorResource;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\UnauthorizedException;
+use Illuminate\Validation\ValidationException as IlluminateValidationException;
 use Tests\TestCase;
 use Tests\Models\SelfValidatesModel;
 
@@ -63,7 +64,7 @@ class ApiExceptionHandlerTest extends TestCase
 			])->validate();
 
 			$this->assertTrue(false);
-		} catch (ValidationException $e) {
+		} catch (HeliumValidationException $e) {
 			$exceptions[] = $e;
 		}
 
@@ -75,7 +76,7 @@ class ApiExceptionHandlerTest extends TestCase
 
 			$array = $response->getData(true);
 
-			if ($e instanceof ValidationException)
+			if ($e instanceof HeliumValidationException)
 			{
 				$this->assertEquals(400, $response->getStatusCode());
 
@@ -125,4 +126,27 @@ class ApiExceptionHandlerTest extends TestCase
 		$this->assertArrayHasKey('message', $array);
 		$this->assertEquals($array['message'], $internalException->getMessage());
 	}
+
+	public function testValidationException()
+    {
+        $handler = new ApiExceptionHandler(new Container());
+        $request = new Request();
+
+        try {
+            Validator::make([], [
+                'abc' => 'required'
+            ])->validate();
+
+            $this->assertFalse(true);
+        } catch (IlluminateValidationException $e) {
+            $expectedMessage = (new HeliumValidationException($e))->getMessage();
+
+            $response = $handler->render($request, $e);
+
+            $data = $response->getData(true);
+
+            $this->assertArrayHasKey('message', $data);
+            $this->assertEquals($data['message'], $expectedMessage);
+        }
+    }
 }

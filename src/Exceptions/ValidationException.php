@@ -10,9 +10,9 @@ class ValidationException extends ApiException
     protected $attributes = [];
 	protected $errors = [];
 
-	public function __construct(IlluminateValidationException $previous, array $attributes)
+	public function __construct(IlluminateValidationException $previous, ?array $attributes = [])
 	{
-		$this->attributes = $attributes;
+		$this->attributes = $attributes ?? $previous->validator->getData();
 		$this->errors = $previous->validator->errors()->toArray();
 
 		$debug = config('app.debug', false);
