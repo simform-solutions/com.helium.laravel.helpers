@@ -17,8 +17,9 @@ class TestSetupHelper
 
         static::once(function () {
             static::migrateDatabase();
-            Mailhog::client()->purgeMessages();
         });
+
+        Mailhog::client()->purgeMessages();
 
         static::truncateDatabase();
 
