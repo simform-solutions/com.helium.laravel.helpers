@@ -11,6 +11,7 @@ trait SetsUpTests
 		parent::setUp();
 
 		$this->withFactories(__DIR__ . '/database/factories');
+		$this->loadMigrationsFrom(__DIR__ . '/../src/Database/migrations');
 		$this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 	}
 
