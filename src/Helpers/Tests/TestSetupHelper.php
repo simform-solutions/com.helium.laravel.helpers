@@ -63,6 +63,8 @@ class TestSetupHelper
         Schema::disableForeignKeyConstraints();
 
         $tableNames = Schema::getConnection()->getDoctrineSchemaManager()->listTableNames();
+        $tableNames[] = 'one_time_seeds';
+
         foreach ($tableNames as $name) {
             if ($name != 'migrations') {
                 DB::table($name)->truncate();
