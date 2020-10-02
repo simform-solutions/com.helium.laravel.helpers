@@ -4,6 +4,7 @@ namespace Helium\LaravelHelpers\Traits;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 trait HandlesPhoto
 {
@@ -13,8 +14,14 @@ trait HandlesPhoto
         $this->attributes['photo_url'] = $path;
     }
 
-    public function getPhotoUrlAttribute()
+    public function getPhotoUrlAttribute($value)
     {
-        return Storage::temporaryUrl($this->attributes['photo_url'], Carbon::now()->addMinute());
+        if ($savedUrl = $this->attributes['photo_url']) {
+            return Storage::temporaryUrl($savedUrl, Carbon::now()->addMinute());
+        } elseif (method_exists(get_parent_class($this), 'getPhotoUrlAttribute')) {
+            return parent::getPhotoUrlAttribute($value);
+        } else {
+            return empty($value) ? 'https://www.gravatar.com/avatar/'.md5(Str::lower($this->email)).'.jpg?s=200&d=mm' : url($value);
+        }
     }
 }
