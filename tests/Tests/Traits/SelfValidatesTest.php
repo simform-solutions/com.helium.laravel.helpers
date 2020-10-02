@@ -117,6 +117,27 @@ class SelfValidatesTest extends TestCase
 			$model->validate();
 		}, ValidationException::class);
 	}
+
+	public function testValidateAttribute()
+    {
+        $model = factory(SelfValidatesModel::class)->create();
+
+        $model->int = 'string';
+
+        try {
+            $model->validateAttribute('string');
+        } catch (ValidationException $e) {
+            $this->assertFalse(true);
+        }
+
+        $this->assertThrowsException(function() use ($model) {
+            $model->string = 123;
+
+            $model->validateAttribute('string');
+        });
+
+
+    }
 	//endregion
 
 	//region Exception

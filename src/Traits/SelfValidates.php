@@ -116,5 +116,28 @@ trait SelfValidates
 			throw new HeliumValidationException($e, $this->allAttributesToArray());
 		}
 	}
+
+	public function validateAttribute(string $attribute) {
+        $rules = array_filter($this->getValidationRules(), function($key) use ($attribute) {
+            return $key == $attribute;
+        }, ARRAY_FILTER_USE_KEY);
+        $messages = array_filter($this->getValidationMessages(), function($key) use ($attribute) {
+            return $key == $attribute;
+        }, ARRAY_FILTER_USE_KEY);
+
+        $v = Validator::make($this->allAttributesToArray(), $rules, $messages);
+
+        try {
+            //Execute validation, which may throw a
+            //Illuminate\Validation\ValidationException
+            return $v->validate();
+        } catch (IlluminateValidationException $e) {
+            //If validation fails, re-wrap the exception as a custom
+            //Helium\LaravelHelpers\Exceptions\ValidationException,
+            //which is more readable than the native
+            //Illuminate\Validation\ValidationException
+            throw new HeliumValidationException($e, $this->allAttributesToArray());
+        }
+    }
 	//endregion
 }
