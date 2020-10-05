@@ -10,12 +10,12 @@ class HeliumHelpersServiceProvider extends ServiceProvider
 	public function boot()
 	{
 		$this->loadTranslationsFrom(__DIR__ . '/../lang/', 'heliumHelpers');
-		$this->loadMigrationsFrom(__DIR__ . '/../Database/migrations');
+		$this->loadMigrationsFrom(__DIR__ . '/../Database/migrations/Common');
 
 		$this->publishes([
 			__DIR__ . '/../lang/' => resource_path('lang/vendor/heliumHelpers'),
 			__DIR__ . '/../config/batch.php' => config_path('batch.php'),
-            __DIR__ . '/../Database/migrations' => database_path('migrations')
+            __DIR__ . '/../Database/migrations/Common' => database_path('migrations')
 		]);
 
 		if ($this->app->runningInConsole())

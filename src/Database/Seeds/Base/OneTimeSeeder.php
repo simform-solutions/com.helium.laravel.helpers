@@ -1,6 +1,6 @@
 <?php
 
-namespace Helium\LaravelHelpers\Database\Seeds;
+namespace Helium\LaravelHelpers\Database\Seeds\Base;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
