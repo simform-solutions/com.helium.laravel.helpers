@@ -28,6 +28,7 @@ class ApiErrorResource extends JsonResource
 		if (method_exists($this->resource, 'toArray'))
 		{
 			$data['messages'] = $this->resource->toArray($debug);
+			$data['errors'] = $data['messages'];
 		}
 
 		if ($debug)
