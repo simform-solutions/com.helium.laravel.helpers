@@ -22,8 +22,9 @@
 		"php-http/message": "^1.9",
 		"guzzlehttp/psr7": "^1.6",
 		"php-http/curl-client": "^2.1",
-        "rpkamp/mailhog-client": "^0.5.0"
-	},
+        "rpkamp/mailhog-client": "^0.5.0",
+      	"ext-json": "*"
+    },
     "require-dev": {
 		"orchestra/testbench": "^3.8.5 || ^4.0 || ^5.0",
 		"phpunit/phpunit": "^8.4"
