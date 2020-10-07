@@ -50,7 +50,7 @@ trait GeneratesGroupId
 	 */
 	public static function bootGeneratesGroupId()
 	{
-		self::creating(function (Model $model) {
+		self::registerModelEvent('booted', function (Model $model) {
             /** @var GeneratesGroupId $model */
 		    $model->attemptGenerateGroupId();
 		});
