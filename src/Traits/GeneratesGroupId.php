@@ -56,4 +56,11 @@ trait GeneratesGroupId
 		});
 	}
 	//endregion
+
+    //region Relationships
+    public function groupMates()
+    {
+        return $this->hasMany(static::class, $this->getGroupIdName(), $this->getGroupIdName());
+    }
+    //endregion
 }
