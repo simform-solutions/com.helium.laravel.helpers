@@ -3,17 +3,17 @@
 namespace Helium\LaravelHelpers\Traits;
 
 use Helium\LaravelHelpers\Generators\UuidPrimaryKeyGenerator;
-use Helium\LaravelHelpers\Contracts\PrimaryKeyGenerator;
+use Helium\LaravelHelpers\Contracts\IdGenerator;
 use Illuminate\Database\Eloquent\Model;
 
 trait GeneratesPrimaryKey
 {
 	//region Helpers
 	/**
-	 * @description Get PrimaryKeyGenerator instance
-	 * @return PrimaryKeyGenerator
+	 * @description Get IdGenerator instance
+	 * @return IdGenerator
 	 */
-	public function getPrimaryKeyGenerator(): PrimaryKeyGenerator
+	public function getPrimaryKeyGenerator(): IdGenerator
 	{
 		$generator = $this->primaryKeyGenerator ?? UuidPrimaryKeyGenerator::class;
 

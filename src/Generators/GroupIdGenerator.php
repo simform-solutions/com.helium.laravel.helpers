@@ -5,7 +5,7 @@ namespace Helium\LaravelHelpers\Generators;
 use Helium\LaravelHelpers\Contracts\IdGenerator;
 use Helium\LaravelHelpers\Helpers\StringHelper;
 
-class UuidPrimaryKeyGenerator extends IdGenerator
+class GroupIdGenerator extends IdGenerator
 {
 	/**
 	 * @description Get the model prefix
@@ -13,15 +13,7 @@ class UuidPrimaryKeyGenerator extends IdGenerator
 	 */
 	protected function getPrefix(): string
 	{
-		if (isset($this->model->primaryKeyPrefix))
-		{
-			return $this->model->primaryKeyPrefix;
-		}
-
-		$namespace = explode('\\', get_class($this->model));
-		$className = array_pop($namespace);
-
-		return strtoupper(substr($className, 0, 3));
+		return property_exists($this->model, 'groupIdPrefix') ? $this->model->groupIdPrefix : 'GROUP';
 	}
 
 	/**

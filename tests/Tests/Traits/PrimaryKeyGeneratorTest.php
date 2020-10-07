@@ -3,13 +3,13 @@
 namespace Tests\Tests\Traits;
 
 use Helium\LaravelHelpers\Generators\UuidPrimaryKeyGenerator;
-use Helium\LaravelHelpers\Contracts\PrimaryKeyGenerator;
+use Helium\LaravelHelpers\Contracts\IdGenerator;
 use Tests\Models\GeneratesPrimaryKeyModel;
 use Tests\TestCase;
 
 abstract class PrimaryKeyGeneratorTest extends TestCase
 {
-	protected abstract function getInstance(): PrimaryKeyGenerator;
+	protected abstract function getInstance(): IdGenerator;
 
 	public function testGenerateUnique()
 	{

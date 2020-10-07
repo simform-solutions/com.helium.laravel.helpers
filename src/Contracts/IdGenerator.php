@@ -4,7 +4,7 @@ namespace Helium\LaravelHelpers\Contracts;
 
 use Illuminate\Database\Eloquent\Model;
 
-abstract class PrimaryKeyGenerator
+abstract class IdGenerator
 {
 	protected $model;
 
