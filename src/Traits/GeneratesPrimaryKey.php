@@ -2,7 +2,7 @@
 
 namespace Helium\LaravelHelpers\Traits;
 
-use Helium\LaravelHelpers\Generators\UuidPrimaryKeyGenerator;
+use Helium\LaravelHelpers\Generators\UuidIdGenerator;
 use Helium\LaravelHelpers\Contracts\IdGenerator;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,9 +15,7 @@ trait GeneratesPrimaryKey
 	 */
 	public function getPrimaryKeyGenerator(): IdGenerator
 	{
-		$generator = $this->primaryKeyGenerator ?? UuidPrimaryKeyGenerator::class;
-
-		return new $generator($this);
+	    return new UuidIdGenerator($this->primaryKeyPrefix);
 	}
 	//endregion
 

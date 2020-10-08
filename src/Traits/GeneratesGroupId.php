@@ -2,7 +2,7 @@
 
 namespace Helium\LaravelHelpers\Traits;
 
-use Helium\LaravelHelpers\Generators\GroupIdGenerator;
+use Helium\LaravelHelpers\Generators\UuidIdGenerator;
 use Helium\LaravelHelpers\Contracts\IdGenerator;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,11 +13,9 @@ trait GeneratesGroupId
 	 * @description Get IdGenerator instance
 	 * @return IdGenerator
 	 */
-	public function getGenerator(): IdGenerator
+	public function getGroupIdGenerator(): IdGenerator
 	{
-		$generator = $this->primaryKeyGenerator ?? GroupIdGenerator::class;
-
-		return new $generator($this);
+        return new UuidIdGenerator($this->groupIdPrefix);
 	}
 	//endregion
 
@@ -40,7 +38,7 @@ trait GeneratesGroupId
 
             $this->setAttribute(
                 $groupIdName,
-                $this->getGenerator()->generate()
+                $this->getGroupIdGenerator()->generate()
             );
         }
     }
